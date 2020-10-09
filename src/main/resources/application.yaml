@@ -1,0 +1,10 @@
+server:
+  servlet:
+    context-path: /chd-order-api
+
+uk:
+  gov:
+    companieshouse:
+      orders:
+        api:
+          health: /healthcheck
