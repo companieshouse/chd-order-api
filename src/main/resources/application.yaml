@@ -1,6 +1,0 @@
-uk:
-  gov:
-    companieshouse:
-      orders:
-        api:
-          health: /healthcheck
