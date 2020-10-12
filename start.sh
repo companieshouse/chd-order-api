@@ -9,7 +9,6 @@ if [[ -z "${MESOS_SLAVE_PID}" ]]; then
     source ~/.chs_env/global_env
     source ~/.chs_env/chd-order-api/env
 
-# FIXME replace with correct variable name
     PORT="${CHD_ORDER_API_PORT:=18579}"
 else
     PORT="$1"
@@ -28,6 +27,5 @@ else
     source "${APP_DIR}/app_env"
 fi
 
-# FIXME replace with correct jar name
 exec java ${JAVA_MEM_ARGS} -jar -Dserver.port="${PORT}" "${APP_DIR}/chd-order-api.jar"
 

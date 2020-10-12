@@ -5,7 +5,7 @@ import uk.gov.companieshouse.logging.LoggerFactory;
 
 public class LoggingUtils {
     
-    public static final String APPLICATION_NAMESPACE="chd-order-api";
+    private static final String APPLICATION_NAMESPACE="chd-order-api";
     
     private static final Logger LOGGER = LoggerFactory.getLogger(APPLICATION_NAMESPACE);
     
