@@ -3,6 +3,9 @@ target/
 *.jar
 *.zip
 
+# Log file
+*.log
+
 # Eclipse files
 .classpath
 .project
