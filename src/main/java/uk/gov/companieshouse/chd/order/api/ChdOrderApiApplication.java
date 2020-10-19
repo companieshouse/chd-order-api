@@ -2,6 +2,7 @@ package uk.gov.companieshouse.chd.order.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import uk.gov.companieshouse.chd.order.api.environment.RequiredEnvironmentVariables;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.environment.EnvironmentReader;
 import uk.gov.companieshouse.environment.exception.EnvironmentVariableException;
