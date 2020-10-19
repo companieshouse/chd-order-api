@@ -15,7 +15,6 @@ public enum RequiredEnvironmentVariables {
     CHPRD_DELIVMETH("CHPRD_DELIVMETH"),
     CHPRD_DELIVLOCATION("CHPRD_DELIVLOCATION");
 
-
     private String name;
 
     RequiredEnvironmentVariables(String name) {
