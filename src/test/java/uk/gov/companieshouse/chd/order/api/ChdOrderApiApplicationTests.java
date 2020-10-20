@@ -2,6 +2,8 @@ package uk.gov.companieshouse.chd.order.api;
 
 import org.junit.Rule;
 import org.junit.contrib.java.lang.system.EnvironmentVariables;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -26,146 +28,116 @@ class ChdOrderApiApplicationTests {
     private static final String CHPRD_DELIVMETH = "CHPRD_DELIVMETH";
     private static final String CHPRD_DELIVLOCATION = "CHPRD_DELIVLOCATION";
 
+    @BeforeEach
+    void init() {
+        setAllEnvironmentVariables();
+    }
+
+    @AfterEach
+    void clearTest() {
+        clearEnvironmentVariables();
+    }
+
     @Test
     void checkEnvironmentVariablesAllPresentReturnsTrue() {
-        setAllEnvironmentVariables();
-
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertTrue(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHSAPIKeyReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHS_API_KEY);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDDataSourceURLReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_DATASOURCE_URL);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDSchemaNameReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_SCHEMA_NAME);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDPasswordReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_PASSWORD);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDCustomerIdReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_CUSTOMER_ID);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDPaymentMethodReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_PAYMENT_METHOD);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDHandCSRReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_HANDCSR);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDStatusReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_STATUS);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDFlagsReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_FLAGS);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDLanguageReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_LANGUAGE);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDDeliveryMethodReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_DELIVMETH);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
     void checkEnvironmentVariablesMissingCHPRDDeliveryLocationReturnsFalse() {
-        setAllEnvironmentVariables();
         environmentVariables.clear(CHPRD_DELIVLOCATION);
 
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
-
-        clearEnvironmentVariables();
     }
 
     @Test
