@@ -1,0 +1,126 @@
+diff --git a/routes.yaml b/routes.yaml
+index f65dc6f..debf089 100644
+--- a/routes.yaml
++++ b/routes.yaml
+@@ -1,5 +1,5 @@
+ app_name: chd-order-api
+ group: api
+-weight: 993
++weight: 823
+ routes:
+-   1: ^/chd-order-api/healthcheck
++   1: ^/chd-order-api.*
+diff --git a/src/main/java/uk/gov/companieshouse/chd/order/api/controller/HealthcheckController.java b/src/main/java/uk/gov/companieshouse/chd/order/api/controller/HealthcheckController.java
+index ea3b36a..edbde2a 100644
+--- a/src/main/java/uk/gov/companieshouse/chd/order/api/controller/HealthcheckController.java
++++ b/src/main/java/uk/gov/companieshouse/chd/order/api/controller/HealthcheckController.java
+@@ -1,10 +1,14 @@
+ package uk.gov.companieshouse.chd.order.api.controller;
+ 
++
+ import org.springframework.http.HttpStatus;
+ import org.springframework.http.ResponseEntity;
+ import org.springframework.web.bind.annotation.GetMapping;
+ import org.springframework.web.bind.annotation.RestController;
+ 
++import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
++import uk.gov.companieshouse.logging.Logger;
++
+ /**
+  * Returns HTTP OK response to indicate a healthy service is running
+  */
+@@ -12,6 +16,8 @@ import org.springframework.web.bind.annotation.RestController;
+ public class HealthcheckController {
+     @GetMapping("${uk.gov.companieshouse.chdorderapi.health}")
+     public ResponseEntity<Void> getHealthCheck (){
++    	Logger logger = LoggingUtils.getLogger();
++    	logger.info(".........Does nor work!!!");
+         return ResponseEntity.status(HttpStatus.OK).build();
+     }
+ }
+diff --git a/src/main/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtils.java b/src/main/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtils.java
+index d750ddb..24ec7ec 100644
+--- a/src/main/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtils.java
++++ b/src/main/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtils.java
+@@ -1,9 +1,15 @@
+ package uk.gov.companieshouse.chd.order.api.logging;
+ 
++import java.util.HashMap;
++import java.util.Map;
++
+ import uk.gov.companieshouse.logging.Logger;
+ import uk.gov.companieshouse.logging.LoggerFactory;
+ 
+ public class LoggingUtils {
++
++	public static final String COMPANY_NUMBER_LOG_KEY = "company_number";
++    public static final String STATUS_LOG_KEY = "status";
+     
+     private static final String APPLICATION_NAMESPACE="chd-order-api";
+     
+@@ -15,4 +21,16 @@ public class LoggingUtils {
+         return LOGGER;
+     }
+ 
++    /**
++     * method to set up a map for logging purposes and add a value for the key
++     * @param key
++     * @param value
++     * @return the Hash map with one key-value mapped
++     */
++    public static Map<String, Object> createLoggingDataMap(final String key, final String value) {
++        Map<String, Object> logMap = new HashMap<>();
++        logMap.put(key, value);
++        
++        return logMap;
++    }    
+ }
+diff --git a/src/main/resources/application.properties b/src/main/resources/application.properties
+index 2a2fb9c..5dc3283 100644
+--- a/src/main/resources/application.properties
++++ b/src/main/resources/application.properties
+@@ -1 +1,2 @@
+-uk.gov.companieshouse.chdorderapi.health=/healthcheck
+\ No newline at end of file
++uk.gov.companieshouse.chdorderapi.health=/chd-order-api/healthcheck
++uk.gov.companieshouse.chd.order.api.mid=/chd-order-api/missing-image-deliveries
+diff --git a/src/test/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtilsTest.java b/src/test/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtilsTest.java
+index 4c5465a..cb05a8a 100644
+--- a/src/test/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtilsTest.java
++++ b/src/test/java/uk/gov/companieshouse/chd/order/api/logging/LoggingUtilsTest.java
+@@ -1,6 +1,10 @@
+ package uk.gov.companieshouse.chd.order.api.logging;
+ 
+ import static org.junit.Assert.assertNotNull;
++import static org.junit.jupiter.api.Assertions.assertEquals;
++
++import java.util.Map;
++
+ import org.junit.jupiter.api.DisplayName;
+ import org.junit.jupiter.api.Test;
+ import org.junit.jupiter.api.extension.ExtendWith;
+@@ -16,5 +20,15 @@ public class LoggingUtilsTest {
+         Logger logger = LoggingUtils.getLogger();
+         assertNotNull(logger);
+     }
+-
++    
++    @Test
++    @DisplayName("Calling createLoggingDataMap should return a Hash map with one key-value mapped")
++    public void createLoggingDataMapReturn() {
++    	String key = "key";
++    	String value = "value";
++    	Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(key, value);
++    	
++        assertNotNull(logMap);
++        assertEquals(value, logMap.get(key));
++    }
+ }
+diff --git a/src/test/resources/application.properties b/src/test/resources/application.properties
+index 19b0df8..66bbc3a 100644
+--- a/src/test/resources/application.properties
++++ b/src/test/resources/application.properties
+@@ -1 +1,2 @@
+-uk.gov.companieshouse.chdorderapi.health=/healthcheck
++uk.gov.companieshouse.chdorderapi.health=/chd-order-api/healthcheck
++uk.gov.companieshouse.chdorderapi.mid=/chd-order-api/missing-image-deliveries
