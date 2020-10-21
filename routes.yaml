@@ -1,5 +1,5 @@
 app_name: chd-order-api
 group: api
-weight: 993
+weight: 823
 routes:
-   1: ^/chd-order-api/healthcheck
+   1: ^/chd-order-api.*
