@@ -30,7 +30,7 @@ public class MissingImageDeliveriesController {
 		// TODO Auto-generated constructor stub
 	}
     
-    @PostMapping("${uk.gov.companieshouse.chdorderapi.mid}")
+    @PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
     public ResponseEntity<Object> createMissingImageDelivery(
     		final @Valid @RequestBody MissingImageDeliveriesDTO midDTO, 
     		HttpServletRequest request )  {

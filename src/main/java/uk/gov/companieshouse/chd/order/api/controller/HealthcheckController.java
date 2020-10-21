@@ -17,7 +17,7 @@ public class HealthcheckController {
     @GetMapping("${uk.gov.companieshouse.chdorderapi.health}")
     public ResponseEntity<Void> getHealthCheck (){
     	Logger logger = LoggingUtils.getLogger();
-    	logger.info(".........Does nor work!!!");
+    	logger.info("uk.gov.companieshouse.chdorderapi.health");
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
