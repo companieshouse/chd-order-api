@@ -50,9 +50,9 @@ public class MissingImageDeliveriesDTO {
 
     @NotNull
     @JsonProperty("item_cost")
-    private String itemCost;
+	private String itemCost;
 
-    public String getId() {
+	public String getId() {
 		return id;
 	}
 

@@ -21,24 +21,22 @@ import uk.gov.companieshouse.logging.Logger;
 @RestController
 public class MissingImageDeliveriesController {
 
-    private static final Logger LOGGER = LoggingUtils.getLogger();
-    
-    /**
-     * Constructor.
-     */
-    public MissingImageDeliveriesController() {
-		// TODO Auto-generated constructor stub
+	private static final Logger LOGGER = LoggingUtils.getLogger();
+
+	/**
+	 * Constructor.
+	 */
+	public MissingImageDeliveriesController() {
 	}
-    
-    @PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
-    public ResponseEntity<Object> createMissingImageDelivery(
-    		final @Valid @RequestBody MissingImageDeliveriesDTO midDTO, 
-    		HttpServletRequest request )  {
-    	Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY, "");
-    	
-    	LOGGER.infoRequest(request, "create mid item request", logMap);
-    	logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
-    	
-    	return ResponseEntity.status(HttpStatus.CREATED).body(null);
-    }
+
+	@PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
+	public ResponseEntity<Object> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
+			HttpServletRequest request) {
+		Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY, "");
+
+		LOGGER.infoRequest(request, "create mid item request", logMap);
+		logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
+
+		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+	}
 }
