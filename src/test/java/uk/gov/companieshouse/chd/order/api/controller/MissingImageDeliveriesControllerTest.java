@@ -29,10 +29,10 @@ public class MissingImageDeliveriesControllerTest {
 	private HttpServletRequest request;
 
 	@Test
-	@DisplayName("Create Missing image item is successful")
-	public void createMissingImageDeliveryRunsSuccessfully() {
-		final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(missingImageDeliveryDTO,
-				request);
+	@DisplayName("Create Missing image delivery successfully")
+	public void createMissingImageDeliverySuccessfully() {
+		final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
+				missingImageDeliveryDTO, request);
 
 		assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 	}

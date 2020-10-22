@@ -41,5 +41,4 @@ public class MissingImageDeliveriesController {
     	
     	return ResponseEntity.status(HttpStatus.CREATED).body(null);
     }
-        
 }
