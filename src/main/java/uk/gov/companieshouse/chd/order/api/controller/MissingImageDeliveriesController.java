@@ -30,13 +30,13 @@ public class MissingImageDeliveriesController {
 	}
 
 	@PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
-	public ResponseEntity<Object> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
+	public ResponseEntity<MissingImageDeliveriesDTO> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
 			HttpServletRequest request) {
 		Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY, "");
 
 		LOGGER.infoRequest(request, "create mid item request", logMap);
 		logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
 
-		return ResponseEntity.status(HttpStatus.CREATED).body(null);
+		return ResponseEntity.status(HttpStatus.CREATED).body(midDTO);
 	}
 }
