@@ -19,14 +19,14 @@ public class ApiKeyAuthenticationInterceptor extends HandlerInterceptorAdapter {
 
         final String authorisedUser = AuthorisationUtil.getAuthorisedIdentity(request);
         if (authorisedUser == null) {
-            LOGGER.debugRequest(request, "no authorised identity", null);
+            LOGGER.infoRequest(request, "no authorised identity", null);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
 
         final String identityType = AuthorisationUtil.getAuthorisedIdentityType(request);
         if (identityType == null) {
-            LOGGER.debugRequest(request, "no authorised identity type", null);
+            LOGGER.infoRequest(request, "no authorised identity type", null);
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
