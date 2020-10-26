@@ -20,12 +20,12 @@ public class ApiKeyAuthorisationInterceptor extends HandlerInterceptorAdapter {
 
         final String identityType = AuthorisationUtil.getAuthorisedIdentityType(request);
         if (!identityType.equals(SecurityConstants.API_KEY_IDENTITY_TYPE)) {
-            LOGGER.debugRequest(request, "invalid identity type [" + identityType + "]", null);
+            LOGGER.infoRequest(request, "invalid identity type [" + identityType + "]", null);
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
             return false;
         }
 
-        LOGGER.debugRequest(request, "authorised as api key", null);
+        LOGGER.infoRequest(request, "authorised as api key", null);
         return true;
     }
 
