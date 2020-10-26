@@ -13,6 +13,7 @@ import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 import java.time.LocalDateTime;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
@@ -51,13 +52,17 @@ class MissingImageDeliveriesControllerIntegrationTest {
     @Test
     @DisplayName("Create Missing Image Delivery returns 201 on valid headers")
     void createMissingImageDeliverySucceedsOnValidHeaders() throws Exception {
+
+        final String content = objectMapper.writeValueAsString(MISSING_IMAGE_DELIVERIES_DTO);
+
         mockMvc.perform(post(MISSING_IMAGE_DELIVERIES_URL)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
                 .header(ERIC_IDENTITY_TYPE, API_KEY_IDENTITY_TYPE)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(MISSING_IMAGE_DELIVERIES_DTO)))
-                .andExpect(status().isCreated());
+                .content(content))
+                .andExpect(status().isCreated())
+                .andExpect(content().json(content, true));
     }
 
     @Test
