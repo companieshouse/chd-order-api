@@ -23,12 +23,6 @@ public class MissingImageDeliveriesController {
 
 	private static final Logger LOGGER = LoggingUtils.getLogger();
 
-	/**
-	 * Constructor.
-	 */
-	public MissingImageDeliveriesController() {
-	}
-
 	@PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
 	public ResponseEntity<MissingImageDeliveriesDTO> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
 			HttpServletRequest request) {
