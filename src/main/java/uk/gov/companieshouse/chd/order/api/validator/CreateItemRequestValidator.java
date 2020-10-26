@@ -1,11 +1,12 @@
 package uk.gov.companieshouse.chd.order.api.validator;
 
+import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 
 import java.util.ArrayList;
 import java.util.List;
 
-
+@Component
 public class CreateItemRequestValidator {
 
     /**

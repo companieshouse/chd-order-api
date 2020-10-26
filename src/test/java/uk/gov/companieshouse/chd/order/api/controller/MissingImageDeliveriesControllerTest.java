@@ -42,4 +42,16 @@ public class MissingImageDeliveriesControllerTest {
 				missingImageDeliveryDTO, request);
 		assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 	}
+
+	@Test
+	@DisplayName("Create Missing image delivery failed")
+	public void createMissingImageDeliveryFailed() {
+		ArrayList<String> errors = new ArrayList<String>();
+		errors.add("company_name: must not be null in create item request");
+		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(missingImageDeliveryDTO))
+			.thenReturn(errors);
+		final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
+			missingImageDeliveryDTO, request);
+		assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+	}
 }
