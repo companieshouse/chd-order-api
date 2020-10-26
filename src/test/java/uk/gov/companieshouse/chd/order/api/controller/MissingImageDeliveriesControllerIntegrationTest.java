@@ -38,6 +38,7 @@ class MissingImageDeliveriesControllerIntegrationTest {
         MISSING_IMAGE_DELIVERIES_DTO = new MissingImageDeliveriesDTO();
         MISSING_IMAGE_DELIVERIES_DTO.setCompanyName("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setCompanyNumber("123");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryType("TestType");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");

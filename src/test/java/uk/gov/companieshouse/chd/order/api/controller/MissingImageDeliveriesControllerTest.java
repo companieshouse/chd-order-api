@@ -34,6 +34,7 @@ public class MissingImageDeliveriesControllerTest {
 		MISSING_IMAGE_DELIVERIES_DTO = new MissingImageDeliveriesDTO();
 		MISSING_IMAGE_DELIVERIES_DTO.setCompanyName("Test");
 		MISSING_IMAGE_DELIVERIES_DTO.setCompanyNumber("123");
+		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryType("TestType");
 		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
 		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
 		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");
@@ -52,6 +53,7 @@ public class MissingImageDeliveriesControllerTest {
 		assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 		assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getCompanyName(), response.getBody().getCompanyName());
 		assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getCompanyNumber(), response.getBody().getCompanyNumber());
+		assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryType(), response.getBody().getFilingHistoryType());
 		assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryCategory(), response.getBody().getFilingHistoryCategory());
 		assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryDate(), response.getBody().getFilingHistoryDate());
 		assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryDescription(), response.getBody().getFilingHistoryDescription());
