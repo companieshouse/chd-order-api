@@ -10,6 +10,7 @@ public class LoggingUtils {
 
 	public static final String COMPANY_NUMBER_LOG_KEY = "company_number";
 	public static final String STATUS_LOG_KEY = "status";
+	public static final String ORDER_URI = "order_uri";
 
 	private static final String APPLICATION_NAMESPACE = "chd-order-api";
 
@@ -24,7 +25,7 @@ public class LoggingUtils {
 
 	/**
 	 * method to set up a map for logging purposes and add a value for the key
-	 * 
+	 *
 	 * @param key
 	 * @param value
 	 * @return the Hash map with one key-value mapped
@@ -34,5 +35,15 @@ public class LoggingUtils {
 		logMap.put(key, value);
 
 		return logMap;
+	}
+
+	public static Map<String, Object> createLogMap() {
+		return new HashMap<>();
+	}
+
+	public static void logIfNotNull(Map<String, Object> logMap, String key, Object loggingObject) {
+		if(loggingObject != null) {
+			logMap.put(key, loggingObject);
+		}
 	}
 }

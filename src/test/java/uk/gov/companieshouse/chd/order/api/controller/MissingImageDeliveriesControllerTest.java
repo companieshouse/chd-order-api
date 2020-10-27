@@ -52,15 +52,16 @@ public class MissingImageDeliveriesControllerTest {
 	// Mock test covering for sonar 
 	private void setUpMissingImageDeliveryDTO() {
 		missingImageDeliveryDTO = new MissingImageDeliveriesDTO();
-		missingImageDeliveryDTO.setCompanyName("Test");
+		missingImageDeliveryDTO.setCompanyName("Test Co");
 		missingImageDeliveryDTO.setCompanyNumber("123");
-		missingImageDeliveryDTO.setFilingHistoryCategory("Test");
+		missingImageDeliveryDTO.setFilingHistoryCategory("Test Category");
+		missingImageDeliveryDTO.setFilingHistoryType("Test Type");
 		missingImageDeliveryDTO.setFilingHistoryDate("25-10-2018");
-		missingImageDeliveryDTO.setFilingHistoryDescription("Test");
-		missingImageDeliveryDTO.setId("Test");
-		missingImageDeliveryDTO.setItemCost("Test");
+		missingImageDeliveryDTO.setFilingHistoryDescription("Test Desc");
+		missingImageDeliveryDTO.setId("Test Id");
+		missingImageDeliveryDTO.setItemCost("Test Cost");
 		missingImageDeliveryDTO.setOrderedAt(LocalDateTime.now());	
-		missingImageDeliveryDTO.setPaymentReference("Test");
+		missingImageDeliveryDTO.setPaymentReference("Test Ref");
 	}
 	
 

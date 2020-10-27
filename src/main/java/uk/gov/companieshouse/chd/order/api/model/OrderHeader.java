@@ -1,10 +1,15 @@
 package uk.gov.companieshouse.chd.order.api.model;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "ORDERHEADER")
@@ -14,32 +19,38 @@ public class OrderHeader {
     @Column(name = "PSNUMBER")
     private String psNumber;
     @Basic
+    @Column(name = "CUSTID")
+    private long customerId;
+    @Basic
     @Column(name = "CUSTVERSION")
-    private String custVersion;
+    private long customerVersion;
     @Basic
     @Column(name = "PAYMENTMETHOD")
-    private String paymentMethod;
+    private long paymentMethod;
     @Basic
     @Column(name = "NUMORDERLINES")
-    private String numOrderLine;
+    private long numOrderLines;
     @Basic
     @Column(name = "REFERENCE")
-    private String reference;
+    private String paymentReference;
     @Basic
     @Column(name = "ORDDTETME")
-    private String orderDateTime;
+    //@Temporal(TemporalType.DATE)
+    private LocalDateTime orderDateTime;
     @Basic
     @Column(name = "HANDCSR")
     private String handCsr;
     @Basic
     @Column(name = "STATUS")
-    private String status;
+    private long status;
     @Basic
     @Column(name = "FLAGS")
-    private String flags;
+    private long flags;
     @Basic
     @Column(name = "LANGUAGE")
     private String language;
+    @OneToMany(mappedBy = "orderHeader", cascade = CascadeType.ALL)
+    private Set<OrderDetails> orderDetails;
 
     public String getPsNumber() {
         return psNumber;
@@ -49,43 +60,51 @@ public class OrderHeader {
         this.psNumber = psNumber;
     }
 
-    public String getCustVersion() {
-        return custVersion;
+    public long getCustomerId() {
+        return customerId;
     }
 
-    public void setCustVersion(String custVersion) {
-        this.custVersion = custVersion;
+    public void setCustomerId(long customerId) {
+        this.customerId = customerId;
     }
 
-    public String getPaymentMethod() {
+    public long getCustomerVersion() {
+        return customerVersion;
+    }
+
+    public void setCustomerVersion(long customerVersion) {
+        this.customerVersion = customerVersion;
+    }
+
+    public long getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(String paymentMethod) {
+    public void setPaymentMethod(long paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
 
-    public String getNumOrderLine() {
-        return numOrderLine;
+    public long getNumOrderLines() {
+        return numOrderLines;
     }
 
-    public void setNumOrderLine(String numOrderLine) {
-        this.numOrderLine = numOrderLine;
+    public void setNumOrderLines(long numOrderLines) {
+        this.numOrderLines = numOrderLines;
     }
 
-    public String getReference() {
-        return reference;
+    public String getPaymentReference() {
+        return paymentReference;
     }
 
-    public void setReference(String reference) {
-        this.reference = reference;
+    public void setPaymentReference(String paymentReference) {
+        this.paymentReference = paymentReference;
     }
 
-    public String getOrderDateTime() {
+    public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
 
-    public void setOrderDateTime(String orderDateTime) {
+    public void setOrderDateTime(LocalDateTime orderDateTime) {
         this.orderDateTime = orderDateTime;
     }
 
@@ -97,19 +116,19 @@ public class OrderHeader {
         this.handCsr = handCsr;
     }
 
-    public String getStatus() {
+    public long getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(long status) {
         this.status = status;
     }
 
-    public String getFlags() {
+    public long getFlags() {
         return flags;
     }
 
-    public void setFlags(String flags) {
+    public void setFlags(long flags) {
         this.flags = flags;
     }
 
@@ -121,15 +140,36 @@ public class OrderHeader {
         this.language = language;
     }
 
+    public Set<OrderDetails> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(Set<OrderDetails> details) {
+        this.orderDetails = details;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         OrderHeader that = (OrderHeader) o;
-        if (psNumber != that.psNumber
-                || custVersion != that.custVersion
-                || paymentMethod != that.paymentMethod
-                || numOrderLine != )
+        return customerId == that.customerId &&
+                customerVersion == that.customerVersion &&
+                paymentMethod == that.paymentMethod &&
+                status == that.status &&
+                flags == that.flags &&
+                psNumber.equals(that.psNumber) &&
+                numOrderLines == that.numOrderLines &&
+                paymentReference.equals(that.paymentReference) &&
+                orderDateTime.equals(that.orderDateTime) &&
+                handCsr.equals(that.handCsr) &&
+                language.equals(that.language) &&
+                orderDetails.equals(that.orderDetails);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(psNumber, customerId, customerVersion, paymentMethod, numOrderLines, paymentReference,
+                orderDateTime, handCsr, status, flags, language, orderDetails);
     }
 }

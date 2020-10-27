@@ -1,55 +1,18 @@
-package uk.gov.companieshouse.chd.order.api.dto;
+package uk.gov.companieshouse.chd.order.api.model;
 
 import java.time.LocalDateTime;
 
-import javax.validation.constraints.NotNull;
+public class MissingImageDeliveriesRequest {
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-/**
- * An instance of this represents the JSON serializable Missing Image Delivery
- * for use in REST requests and responses.
- */
-public class MissingImageDeliveriesDTO {
-
-	@NotNull
-	@JsonProperty("id")
 	private String id;
-
-	@NotNull
-	@JsonProperty("company_name")
 	private String companyName;
-
-	@NotNull
-	@JsonProperty("company_number")
 	private String companyNumber;
-
-	@NotNull
-	@JsonProperty("ordered_at")
 	private LocalDateTime orderedAt;
-
-	@NotNull
-	@JsonProperty("payment_reference")
 	private String paymentReference;
-
-	@NotNull
-	@JsonProperty("filing_history_category")
 	private String filingHistoryCategory;
-
-	@NotNull
-	@JsonProperty("filing_history_type")
 	private String filingHistoryType;
-
-	@NotNull
-	@JsonProperty("filing_history_description")
 	private String filingHistoryDescription;
-
-	@NotNull
-	@JsonProperty("filing_history_date")
 	private String filingHistoryDate;
-
-	@NotNull
-	@JsonProperty("item_cost")
 	private String itemCost;
 
 	public String getId() {
