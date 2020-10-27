@@ -12,6 +12,7 @@ import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 import uk.gov.companieshouse.chd.order.api.validator.CreateItemRequestValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -25,21 +26,34 @@ public class MissingImageDeliveriesControllerTest {
 	private MissingImageDeliveriesController controllerUnderTest;
 
 	@Mock
-	private MissingImageDeliveriesDTO missingImageDeliveryDTO;
+	private CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator;
 
 	@Mock
 	private HttpServletRequest request;
 
-	@Mock
-	private CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator;
+	private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
+
+	static {
+		MISSING_IMAGE_DELIVERIES_DTO = new MissingImageDeliveriesDTO();
+		MISSING_IMAGE_DELIVERIES_DTO.setCompanyName("Test");
+		MISSING_IMAGE_DELIVERIES_DTO.setCompanyNumber("123");
+		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
+		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
+		MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");
+		MISSING_IMAGE_DELIVERIES_DTO.setId("Test");
+		MISSING_IMAGE_DELIVERIES_DTO.setItemCost("Test");
+		MISSING_IMAGE_DELIVERIES_DTO.setOrderedAt(LocalDateTime.now());
+		MISSING_IMAGE_DELIVERIES_DTO.setPaymentReference("Test");
+	}
 
 	@Test
 	@DisplayName("Create Missing image delivery successfully")
 	public void createMissingImageDeliverySuccessfully() {
-		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(missingImageDeliveryDTO))
+
+		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
 			.thenReturn(new ArrayList<String>());
 		final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
-				missingImageDeliveryDTO, request);
+				MISSING_IMAGE_DELIVERIES_DTO, request);
 		assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
 	}
 
@@ -48,10 +62,10 @@ public class MissingImageDeliveriesControllerTest {
 	public void createMissingImageDeliveryFailed() {
 		ArrayList<String> errors = new ArrayList<String>();
 		errors.add("company_name: must not be null in create item request");
-		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(missingImageDeliveryDTO))
+		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
 			.thenReturn(errors);
 		final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
-			missingImageDeliveryDTO, request);
+			MISSING_IMAGE_DELIVERIES_DTO, request);
 		assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
 	}
 }
