@@ -1,13 +1,5 @@
 package uk.gov.companieshouse.chd.order.api.controller;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-
-import java.time.LocalDateTime;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,53 +8,57 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 
 @ExtendWith(MockitoExtension.class)
 public class MissingImageDeliveriesControllerTest {
 
-	@InjectMocks
-	private MissingImageDeliveriesController controllerUnderTest;
+    @InjectMocks
+    private MissingImageDeliveriesController controllerUnderTest;
 
-	private MissingImageDeliveriesDTO missingImageDeliveryDTO;
+    @Mock
+    private HttpServletRequest request;
 
-	@Mock
-	private HttpServletRequest request;
+    private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
 
-	@Test
-	@DisplayName("Create Missing image delivery successfully")
-	public void createMissingImageDeliverySuccessfully() {
-		setUpMissingImageDeliveryDTO();
-		final ResponseEntity<MissingImageDeliveriesDTO> response = controllerUnderTest.createMissingImageDelivery(
-				missingImageDeliveryDTO, request);
-		
-		assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
-		assertEquals(missingImageDeliveryDTO.getCompanyName(), response.getBody().getCompanyName());
-		assertEquals(missingImageDeliveryDTO.getCompanyNumber(), response.getBody().getCompanyNumber());
-		assertEquals(missingImageDeliveryDTO.getFilingHistoryCategory(), response.getBody().getFilingHistoryCategory());
-		assertEquals(missingImageDeliveryDTO.getFilingHistoryDate(), response.getBody().getFilingHistoryDate());
-		assertEquals(missingImageDeliveryDTO.getFilingHistoryDescription(), response.getBody().getFilingHistoryDescription());
-		assertEquals(missingImageDeliveryDTO.getId(), response.getBody().getId());
-		assertEquals(missingImageDeliveryDTO.getItemCost(), response.getBody().getItemCost());
-		assertEquals(missingImageDeliveryDTO.getOrderedAt(), response.getBody().getOrderedAt());
-		assertEquals(missingImageDeliveryDTO.getPaymentReference(), response.getBody().getPaymentReference());
-	}
-	
-	// Mock test covering for sonar 
-	private void setUpMissingImageDeliveryDTO() {
-		missingImageDeliveryDTO = new MissingImageDeliveriesDTO();
-		missingImageDeliveryDTO.setCompanyName("Test Co");
-		missingImageDeliveryDTO.setCompanyNumber("123");
-		missingImageDeliveryDTO.setFilingHistoryCategory("Test Category");
-		missingImageDeliveryDTO.setFilingHistoryType("Test Type");
-		missingImageDeliveryDTO.setFilingHistoryDate("25-10-2018");
-		missingImageDeliveryDTO.setFilingHistoryDescription("Test Desc");
-		missingImageDeliveryDTO.setId("Test Id");
-		missingImageDeliveryDTO.setItemCost("Test Cost");
-		missingImageDeliveryDTO.setOrderedAt(LocalDateTime.now());	
-		missingImageDeliveryDTO.setPaymentReference("Test Ref");
-	}
-	
+    static {
+        MISSING_IMAGE_DELIVERIES_DTO = new MissingImageDeliveriesDTO();
+        MISSING_IMAGE_DELIVERIES_DTO.setCompanyName("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setCompanyNumber("123");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryType("TestType");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setId("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setItemCost("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setOrderedAt(LocalDateTime.now());
+        MISSING_IMAGE_DELIVERIES_DTO.setPaymentReference("Test");
+    }
+
+    @Test
+    @DisplayName("Create Missing image delivery successfully")
+    public void createMissingImageDeliverySuccessfully() {
+        final ResponseEntity<MissingImageDeliveriesDTO> response = controllerUnderTest.createMissingImageDelivery(
+                MISSING_IMAGE_DELIVERIES_DTO, request);
+
+        assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getCompanyName(), response.getBody().getCompanyName());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getCompanyNumber(), response.getBody().getCompanyNumber());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryType(), response.getBody().getFilingHistoryType());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryCategory(), response.getBody().getFilingHistoryCategory());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryDate(), response.getBody().getFilingHistoryDate());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryDescription(), response.getBody().getFilingHistoryDescription());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getId(), response.getBody().getId());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getItemCost(), response.getBody().getItemCost());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getOrderedAt(), response.getBody().getOrderedAt());
+        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getPaymentReference(), response.getBody().getPaymentReference());
+    }
 
 }
