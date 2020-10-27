@@ -33,6 +33,10 @@ public class MissingImageDeliveriesDTO {
 	private String paymentReference;
 
 	@NotNull
+	@JsonProperty("filing_history_type")
+	private String filingHistoryType;
+
+	@NotNull
 	@JsonProperty("filing_history_category")
 	private String filingHistoryCategory;
 
@@ -86,6 +90,14 @@ public class MissingImageDeliveriesDTO {
 
 	public void setPaymentReference(String paymentReference) {
 		this.paymentReference = paymentReference;
+	}
+
+	public String getFilingHistoryType() {
+		return filingHistoryType;
+	}
+
+	public void setFilingHistoryType(String filingHistoryType) {
+		this.filingHistoryType = filingHistoryType;
 	}
 
 	public String getFilingHistoryCategory() {
