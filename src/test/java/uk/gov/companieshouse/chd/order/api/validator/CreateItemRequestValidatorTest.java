@@ -18,14 +18,24 @@ public class CreateItemRequestValidatorTest {
     private CreateItemRequestValidator validatorUnderTest;
     private MissingImageDeliveriesDTO missingImageDeliveriesDTO;
 
+    private final static String ID_ERROR = "id: must not be null or empty in a create item request";
+    private final static String COMPANY_NUMBER_ERROR = "company_number: must not be null or empty in create item request";
+    private final static String COMPANY_NAME_ERROR = "company_name: must not be null or empty in create item request";
+    private final static String ORDERED_AT_ERROR = "ordered_at: must not be null in create item request";
+    private final static String PAYMENT_REFERENCE_ERROR = "payment_reference: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_CATEGORY_ERROR = "filing_history_category: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_DESCRIPTION_ERROR = "filing_history_description: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_DATE_ERROR = "filing_history_date: must not be null or empty in create item request";
+    private final static String ITEM_COST_ERROR = "item_cost: must not be null or empty in create item request";
+
     @BeforeEach
     void setUp() {
         validatorUnderTest = new CreateItemRequestValidator();
     }
 
     @Test
-    @DisplayName("all fields are not null")
-    void allFieldsAreNotNull() {
+    @DisplayName("all fields are not null or empty")
+    void allFieldsAreNotNullOrEmpty() {
         // Given
         missingImageDeliveriesDTO = ItemSetup.setUpMissingImageDeliveryDTO();
         // When
@@ -45,7 +55,7 @@ public class CreateItemRequestValidatorTest {
         final List<String> errors = validatorUnderTest.getValidationErrors(missingImageDeliveriesDTO);
 
         // Then
-        assertThat(errors, contains("id: must not be null in a create item request"));
+        assertThat(errors, contains(ID_ERROR));
     }
 
     @Test
@@ -58,7 +68,7 @@ public class CreateItemRequestValidatorTest {
         final List<String> errors = validatorUnderTest.getValidationErrors(missingImageDeliveriesDTO);
 
         // Then
-        assertThat(errors, contains("payment_reference: must not be null in create item request"));
+        assertThat(errors, contains(PAYMENT_REFERENCE_ERROR));
     }
 
     @Test
@@ -81,14 +91,71 @@ public class CreateItemRequestValidatorTest {
 
         // Then
         assertThat(errors, containsInAnyOrder(
-            "id: must not be null in a create item request",
-            "company_name: must not be null in create item request",
-            "company_number: must not be null in create item request",
-            "ordered_at: must not be null in create item request",
-            "payment_reference: must not be null in create item request",
-            "filing_history_category: must not be null in create item request",
-            "filing_history_description: must not be null in create item request",
-            "filing_history_date: must not be null in create item request",
-            "item_cost: must not be null in create item request"));
+            ID_ERROR,
+            COMPANY_NAME_ERROR,
+            COMPANY_NUMBER_ERROR,
+            ORDERED_AT_ERROR,
+            PAYMENT_REFERENCE_ERROR,
+            FILING_HISTORY_CATEGORY_ERROR,
+            FILING_HISTORY_DESCRIPTION_ERROR,
+            FILING_HISTORY_DATE_ERROR,
+            ITEM_COST_ERROR));
+    }
+
+    @Test
+    @DisplayName("ID is empty all other fields are populated")
+    void idIsEmpty() {
+        // Given
+        missingImageDeliveriesDTO = ItemSetup.setUpMissingImageDeliveryDTO();
+        missingImageDeliveriesDTO.setId("");
+        // When
+        final List<String> errors = validatorUnderTest.getValidationErrors(missingImageDeliveriesDTO);
+
+        // Then
+        assertThat(errors, contains("id: must not be null or empty in a create item request"));
+    }
+
+    @Test
+    @DisplayName("payment reference is empty all other fields are populated")
+    void paymentReferenceIsEmpty() {
+        // Given
+        missingImageDeliveriesDTO = ItemSetup.setUpMissingImageDeliveryDTO();
+        missingImageDeliveriesDTO.setPaymentReference("");
+        // When
+        final List<String> errors = validatorUnderTest.getValidationErrors(missingImageDeliveriesDTO);
+
+        // Then
+        assertThat(errors, contains(PAYMENT_REFERENCE_ERROR));
+    }
+
+    @Test
+    @DisplayName("All details are empty or null and mandatory for creation of MID item")
+    void collectionDetailsEmptyOrNullAreMandatoryForCollectionDeliveryMethod() {
+        // Given
+        missingImageDeliveriesDTO = ItemSetup.setUpMissingImageDeliveryDTO();
+        missingImageDeliveriesDTO.setId("");
+        missingImageDeliveriesDTO.setCompanyName("");
+        missingImageDeliveriesDTO.setCompanyNumber("");
+        missingImageDeliveriesDTO.setFilingHistoryCategory("");
+        missingImageDeliveriesDTO.setFilingHistoryDate("");
+        missingImageDeliveriesDTO.setFilingHistoryDescription("");
+        missingImageDeliveriesDTO.setItemCost("");
+        missingImageDeliveriesDTO.setOrderedAt(null);
+        missingImageDeliveriesDTO.setPaymentReference("");
+
+        // When
+        final List<String> errors = validatorUnderTest.getValidationErrors(missingImageDeliveriesDTO);
+
+        // Then
+        assertThat(errors, containsInAnyOrder(
+            ID_ERROR,
+            COMPANY_NAME_ERROR,
+            COMPANY_NUMBER_ERROR,
+            ORDERED_AT_ERROR,
+            PAYMENT_REFERENCE_ERROR,
+            FILING_HISTORY_CATEGORY_ERROR,
+            FILING_HISTORY_DESCRIPTION_ERROR,
+            FILING_HISTORY_DATE_ERROR,
+            ITEM_COST_ERROR));
     }
 }
