@@ -1,0 +1,104 @@
+{
+	"info": {
+		"_postman_id": "2851fc4e-f33b-4509-8369-7c8e95e3dcc1",
+		"name": "CHD Order API",
+		"description": "Tests for the CHS Orders CHD order API.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "CHD MID Order API",
+			"item": [
+				{
+					"name": "Create MID Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\t\"id\": \"MID-698216-037074\",\n\t\"company_number\": \"00006400\",\n\t\"company_name\": \"THE GIRLS' DAY SCHOOL TRUST\",\n\t\"ordered_at\": \"2020-10-26T10:20:46.058\",\n\t\"payment_reference\": \"1234\",\n\t\"filing_history_category\": \"incorporation\",\n\t\"filing_history_description\": \"memorandum-articles\",\n\t\"filing_history_date\": \"1993-04-01\",\n\t\"filing_history_type\": \"MEM/ARTS\",\n\t\"item_cost\": \"3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/chd-order-api/missing-image-deliveries",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"chd-order-api",
+								"missing-image-deliveries"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Healthcheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{base_url}}/chd-order-api/healthcheck",
+					"host": [
+						"{{base_url}}"
+					],
+					"path": [
+						"chd-order-api",
+						"healthcheck"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessToken",
+				"value": "y-O_aFX3DOJ52FHn_DtF1jROfzqX7_72x6c7WakoQl13_WNa9noo4Wq7frw3pqXqnp_wWF_c43xS9PychSnW2w",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "95028210-5762-4934-87d7-9e8f689c2b5e",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "5e717383-c1ee-4985-9ad3-ed499559fccb",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
