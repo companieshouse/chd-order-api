@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.chd.order.api.validator;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 
@@ -43,7 +44,7 @@ public class CreateItemRequestValidator {
     }
 
     private void checkString(String string, List<String> errors, String errorMessage) {
-        if(string == null || string.isEmpty()){
+        if(StringUtils.isBlank(string)){
             errors.add(errorMessage);
         }
     }
