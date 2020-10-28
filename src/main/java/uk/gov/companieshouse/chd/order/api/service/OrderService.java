@@ -26,23 +26,23 @@ public class OrderService {
     private static final long CUSTOMER_VERSION = 1;
     private static final String PRODUCT_SUB_KEY = "SCUD";
     @Value("${chprd.customer-id}")
-    private long CUSTOMER_ID;
+    private long customerId;
     @Value("${chprd.payment-method}")
-    private long PAYMENT_METHOD;
+    private long paymentMethod;
     @Value("${chprd.handcsr}")
-    private String HANDCSR;
+    private String handcsr;
     @Value("${chprd.language}")
-    private String LANGUAGE;
+    private String language;
     @Value("${chprd.flags}")
-    private long FLAGS;
+    private long flags;
 
     private static final long SEQUENCE_NUMBER = 1;
     private static final long STATUS = 1;
     private static final long QUANTITY = 1;
     @Value("${chprd.delivery-method}")
-    private long DELIVERY_METHOD;
+    private long deliveryMethod;
     @Value("${chprd.delivery-location}")
-    private long DELIVERY_LOCATION;
+    private long deliveryLocation;
 
     public OrderService(OrderHeaderRepository orderHeaderRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
@@ -67,13 +67,13 @@ public class OrderService {
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setNumOrderLines(NUM_ORDER_LINES);
         orderHeader.setCustomerVersion(CUSTOMER_VERSION);
-        orderHeader.setCustomerId(CUSTOMER_ID);
+        orderHeader.setCustomerId(customerId);
         orderHeader.setPsNumber(midRequest.getId());
-        orderHeader.setPaymentMethod(PAYMENT_METHOD);
-        orderHeader.setHandCsr(HANDCSR);
-        orderHeader.setLanguage(LANGUAGE);
-        orderHeader.setFlags(FLAGS);
-        orderHeader.setPaymentMethod(PAYMENT_METHOD);
+        orderHeader.setPaymentMethod(paymentMethod);
+        orderHeader.setHandCsr(handcsr);
+        orderHeader.setLanguage(language);
+        orderHeader.setFlags(flags);
+        orderHeader.setPaymentMethod(paymentMethod);
         orderHeader.setStatus(STATUS);
         orderHeader.setPaymentReference(midRequest.getPaymentReference());
         orderHeader.setOrderDateTime(midRequest.getOrderedAt());
@@ -95,8 +95,8 @@ public class OrderService {
         orderDetails.setProductDescription(midRequest.getFilingHistoryDescription());
         LocalDate productDate = LocalDate.parse(midRequest.getFilingHistoryDate(), DateTimeFormatter.ISO_LOCAL_DATE);
         orderDetails.setProductDate(productDate);
-        orderDetails.setDeliveryMethod(DELIVERY_METHOD);
-        orderDetails.setDeliveryLocation(DELIVERY_LOCATION);
+        orderDetails.setDeliveryMethod(deliveryMethod);
+        orderDetails.setDeliveryLocation(deliveryLocation);
         orderDetails.setItemCost(Long.parseLong(midRequest.getItemCost()));
         orderDetails.setQuantity(QUANTITY);
         orderDetails.setStatus(STATUS);
