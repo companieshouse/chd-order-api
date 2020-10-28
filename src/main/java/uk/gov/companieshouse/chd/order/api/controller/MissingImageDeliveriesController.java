@@ -7,6 +7,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
+import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
+import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
+import uk.gov.companieshouse.chd.order.api.service.OrderService;
 import uk.gov.companieshouse.chd.order.api.validator.CreateItemRequestValidator;
 import uk.gov.companieshouse.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -23,12 +26,17 @@ import static uk.gov.companieshouse.chd.order.api.logging.LoggingUtils.ERRORS_LO
 public class MissingImageDeliveriesController {
 
     private static final Logger LOGGER = LoggingUtils.getLogger();
+    private final MissingImageDeliveriesRequestMapper mapper;
+    private final OrderService orderService;
     private final CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator;
 
     /**
      * Constructor.
      */
-    public MissingImageDeliveriesController(final CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator) {
+    public MissingImageDeliveriesController(final OrderService orderService, final MissingImageDeliveriesRequestMapper mapper,
+        final CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator) {
+        this.orderService = orderService;
+        this.mapper = mapper;
         this.createMissingImageDeliveryItemRequestValidator = createMissingImageDeliveryItemRequestValidator;
     }
 
@@ -48,7 +56,10 @@ public class MissingImageDeliveriesController {
             return ResponseEntity.status(BAD_REQUEST).body(new ApiError(BAD_REQUEST, errors));
         }
 
+        MissingImageDeliveriesRequest midRequest = mapper.mapMissingImageDeliveriesRequest(midDTO);
+        orderService.saveOrderDetails(midRequest);
         logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(midDTO);
     }
 }

@@ -23,17 +23,27 @@ public class LoggingUtils {
         return LOGGER;
     }
 
-    /**
-     * method to set up a map for logging purposes and add a value for the key
-     *
-     * @param key
-     * @param value
-     * @return the Hash map with one key-value mapped
-     */
-    public static Map<String, Object> createLoggingDataMap(final String key, final String value) {
-        Map<String, Object> logMap = new HashMap<>();
-        logMap.put(key, value);
+	/**
+	 * method to set up a map for logging purposes and add a value for the key
+	 *
+	 * @param key
+	 * @param value
+	 * @return the Hash map with one key-value mapped
+	 */
+	public static Map<String, Object> createLoggingDataMap(final String key, final String value) {
+		Map<String, Object> logMap = new HashMap<>();
+		logMap.put(key, value);
 
-        return logMap;
-    }
+		return logMap;
+	}
+
+	public static Map<String, Object> createLogMap() {
+		return new HashMap<>();
+	}
+
+	public static void logIfNotNull(Map<String, Object> logMap, String key, Object loggingObject) {
+		if(loggingObject != null) {
+			logMap.put(key, loggingObject);
+		}
+	}
 }
