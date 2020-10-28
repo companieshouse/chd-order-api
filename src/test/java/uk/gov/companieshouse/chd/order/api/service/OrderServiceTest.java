@@ -19,7 +19,7 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class OrderServiceTest {
+class OrderServiceTest {
     private static final String FH_CATEGORY = "accounts";
     private static final String FH_DATE = "2018-04-22";
     private static final String ITEM_COST = "3";

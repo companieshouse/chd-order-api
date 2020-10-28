@@ -17,7 +17,7 @@ import static org.hamcrest.Matchers.is;
 
 @ExtendWith(SpringExtension.class)
 @SpringJUnitConfig(MissingImageDeliveriesRequestMapperTest.Config.class)
-public class MissingImageDeliveriesRequestMapperTest {
+class MissingImageDeliveriesRequestMapperTest {
     @Configuration
     @ComponentScan(basePackageClasses = MissingImageDeliveriesRequestMapperTest.class)
     static class Config {
