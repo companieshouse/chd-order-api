@@ -14,7 +14,7 @@ public class EnumValueNameConverter {
 		return enumValueJson.toUpperCase().replace("-", "_");
 	}
 
-	public static String convertEnumValueNameToJson(final Enum value) {
+	public static String convertEnumValueNameToJson(final Enum<?> value) {
 		return value.name().toLowerCase().replace("_", "-");
 	}
 }

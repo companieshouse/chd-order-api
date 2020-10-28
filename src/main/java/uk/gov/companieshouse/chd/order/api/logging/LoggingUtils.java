@@ -1,15 +1,16 @@
 package uk.gov.companieshouse.chd.order.api.logging;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import uk.gov.companieshouse.logging.Logger;
 import uk.gov.companieshouse.logging.LoggerFactory;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class LoggingUtils {
 
     public static final String COMPANY_NUMBER_LOG_KEY = "company_number";
     public static final String STATUS_LOG_KEY = "status";
+    public static final String ERRORS_LOG_KEY = "errors";
 
     private static final String APPLICATION_NAMESPACE = "chd-order-api";
 

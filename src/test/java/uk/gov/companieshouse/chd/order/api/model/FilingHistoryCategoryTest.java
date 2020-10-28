@@ -31,14 +31,14 @@ class FilingHistoryCategoryTest {
     @Test
     void mapsAccountsCategorySuccessfully(){
         assertThat(FilingHistoryCategory.enumValueOf(ACCOUNTS).getProductCategory(), is(ProductCategory.SCUD_ACC));
-        assertThat(FilingHistoryCategory.enumValueOf(ACCOUNTS).getProductCode(), is("14010"));
+        assertThat(FilingHistoryCategory.enumValueOf(ACCOUNTS).getProductCode(), is(ProductCode.CODE_14010.getValue()));
         assertThat(FilingHistoryCategory.ACCOUNTS.toString(), is("accounts"));
     }
 
     @Test
     void mapsAnnualReturnsCategoriesSuccessfully(){
         Arrays.stream(ANNUAL_RETURN).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCategory(), is(ProductCategory.SCUD_363)));
-        Arrays.stream(ANNUAL_RETURN).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is("14011")));
+        Arrays.stream(ANNUAL_RETURN).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is(ProductCode.CODE_14011.getValue())));
         assertThat(FilingHistoryCategory.ANNUAL_RETURN.toString(), is("annual-return"));
         assertThat(FilingHistoryCategory.CONFIRMATION_STATEMENT.toString(), is("confirmation-statement"));
         assertThat(FilingHistoryCategory.RETURN.toString(), is("return"));
@@ -47,7 +47,7 @@ class FilingHistoryCategoryTest {
     @Test
     void mapsAppointmentCategoriesSuccessfully(){
         Arrays.stream(APPOINTMENT).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCategory(), is(ProductCategory.SCUD_288)));
-        Arrays.stream(APPOINTMENT).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is("14012")));
+        Arrays.stream(APPOINTMENT).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is(ProductCode.CODE_14012.getValue())));
         assertThat(FilingHistoryCategory.OFFICER.toString(), is("officer"));
         assertThat(FilingHistoryCategory.OFFICERS.toString(), is("officers"));
     }
@@ -55,21 +55,21 @@ class FilingHistoryCategoryTest {
     @Test
     void mapsAddressCategorySuccessfully(){
         assertThat(FilingHistoryCategory.enumValueOf(ADDRESS).getProductCategory(), is(ProductCategory.SCUD_287));
-        assertThat(FilingHistoryCategory.enumValueOf(ADDRESS).getProductCode(), is("14013"));
+        assertThat(FilingHistoryCategory.enumValueOf(ADDRESS).getProductCode(), is(ProductCode.CODE_14013.getValue()));
         assertThat(FilingHistoryCategory.ADDRESS.toString(), is("address"));
     }
 
     @Test
     void mapsMortgageCategorySuccessfully(){
         assertThat(FilingHistoryCategory.enumValueOf(MORTGAGE).getProductCategory(), is(ProductCategory.SCUD_MORT));
-        assertThat(FilingHistoryCategory.enumValueOf(MORTGAGE).getProductCode(), is("14014"));
+        assertThat(FilingHistoryCategory.enumValueOf(MORTGAGE).getProductCode(), is(ProductCode.CODE_14014.getValue()));
         assertThat(FilingHistoryCategory.MORTGAGE.toString(), is("mortgage"));
     }
 
     @Test
     void mapsLiquidationCategoriesSuccessfully(){
         Arrays.stream(LIQUIDATION).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCategory(), is(ProductCategory.SCUD_LIQ)));
-        Arrays.stream(LIQUIDATION).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is("14015")));
+        Arrays.stream(LIQUIDATION).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is(ProductCode.CODE_14015.getValue())));
         assertThat(FilingHistoryCategory.LIQUIDATION.toString(), is("liquidation"));
         assertThat(FilingHistoryCategory.INSOLVENCY.toString(), is("insolvency"));
     }
@@ -77,28 +77,28 @@ class FilingHistoryCategoryTest {
     @Test
     void mapsIncorporationCategorySuccessfully(){
         assertThat(FilingHistoryCategory.enumValueOf(INCORPORATION).getProductCategory(), is(ProductCategory.SCUD_NEWC));
-        assertThat(FilingHistoryCategory.enumValueOf(INCORPORATION).getProductCode(), is("14016"));
+        assertThat(FilingHistoryCategory.enumValueOf(INCORPORATION).getProductCode(), is(ProductCode.CODE_14016.getValue()));
         assertThat(FilingHistoryCategory.INCORPORATION.toString(), is("incorporation"));
     }
 
     @Test
     void mapsChangeOfNameCategorySuccessfully(){
         assertThat(FilingHistoryCategory.enumValueOf(CHANGE_OF_NAME).getProductCategory(), is(ProductCategory.SCUD_CON));
-        assertThat(FilingHistoryCategory.enumValueOf(CHANGE_OF_NAME).getProductCode(), is("14017"));
+        assertThat(FilingHistoryCategory.enumValueOf(CHANGE_OF_NAME).getProductCode(), is(ProductCode.CODE_14017.getValue()));
         assertThat(FilingHistoryCategory.CHANGE_OF_NAME.toString(), is("change-of-name"));
     }
 
     @Test
     void mapsCapitalCategorySuccessfully(){
         assertThat(FilingHistoryCategory.enumValueOf(CAPITAL).getProductCategory(), is(ProductCategory.SCUD_CAP));
-        assertThat(FilingHistoryCategory.enumValueOf(CAPITAL).getProductCode(), is("14018"));
+        assertThat(FilingHistoryCategory.enumValueOf(CAPITAL).getProductCode(), is(ProductCode.CODE_14018.getValue()));
         assertThat(FilingHistoryCategory.CAPITAL.toString(), is("capital"));
     }
 
     @Test
     void mapsMiscellaneousCategoriesSuccessfully(){
         Arrays.stream(MISC).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCategory(), is(ProductCategory.SCUD_MISC)));
-        Arrays.stream(MISC).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is("14019")));
+        Arrays.stream(MISC).forEach(c -> assertThat(FilingHistoryCategory.enumValueOf(c).getProductCode(), is(ProductCode.CODE_14019.getValue())));
         assertThat(FilingHistoryCategory.RESOLUTION.toString(), is("resolution"));
         assertThat(FilingHistoryCategory.MISCELLANEOUS.toString(), is("miscellaneous"));
         assertThat(FilingHistoryCategory.AUDITORS.toString(), is("auditors"));
