@@ -9,6 +9,8 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
+import uk.gov.companieshouse.chd.order.api.service.OrderService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
@@ -25,6 +27,12 @@ public class MissingImageDeliveriesControllerTest {
 
     @Mock
     private HttpServletRequest request;
+
+    @Mock
+    private MissingImageDeliveriesRequestMapper mapper;
+
+    @Mock
+    private OrderService orderService;
 
     private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
 
