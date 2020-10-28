@@ -9,16 +9,16 @@ import java.util.List;
 @Component
 public class CreateItemRequestValidator {
 
-    private final static String ID_ERROR = "id: must not be null or empty in a create item request";
-    private final static String COMPANY_NUMBER_ERROR = "company_number: must not be null or empty in create item request";
-    private final static String COMPANY_NAME_ERROR = "company_name: must not be null or empty in create item request";
-    private final static String ORDERED_AT_ERROR = "ordered_at: must not be null in create item request";
-    private final static String PAYMENT_REFERENCE_ERROR = "payment_reference: must not be null or empty in create item request";
-    private final static String FILING_HISTORY_CATEGORY_ERROR = "filing_history_category: must not be null or empty in create item request";
-    private final static String FILING_HISTORY_DESCRIPTION_ERROR = "filing_history_description: must not be null or empty in create item request";
-    private final static String FILING_HISTORY_DATE_ERROR = "filing_history_date: must not be null or empty in create item request";
-    private final static String FILING_HISTORY_TYPE_ERROR = "filing_history_type: must not be null or empty in create item request";
-    private final static String ITEM_COST_ERROR = "item_cost: must not be null or empty in create item request";
+    private static final String ID_ERROR = "id: must not be null or empty in a create item request";
+    private static final String COMPANY_NUMBER_ERROR = "company_number: must not be null or empty in create item request";
+    private static final String COMPANY_NAME_ERROR = "company_name: must not be null or empty in create item request";
+    private static final String ORDERED_AT_ERROR = "ordered_at: must not be null in create item request";
+    private static final String PAYMENT_REFERENCE_ERROR = "payment_reference: must not be null or empty in create item request";
+    private static final String FILING_HISTORY_CATEGORY_ERROR = "filing_history_category: must not be null or empty in create item request";
+    private static final String FILING_HISTORY_DESCRIPTION_ERROR = "filing_history_description: must not be null or empty in create item request";
+    private static final String FILING_HISTORY_DATE_ERROR = "filing_history_date: must not be null or empty in create item request";
+    private static final String FILING_HISTORY_TYPE_ERROR = "filing_history_type: must not be null or empty in create item request";
+    private static final String ITEM_COST_ERROR = "item_cost: must not be null or empty in create item request";
 
     /**
      * Validates the item provided, returning any errors found.
