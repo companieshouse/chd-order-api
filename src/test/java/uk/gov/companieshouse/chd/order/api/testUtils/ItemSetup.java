@@ -13,6 +13,7 @@ public class ItemSetup {
         missingImageDeliveriesDTO.setFilingHistoryCategory("Category");
         missingImageDeliveriesDTO.setFilingHistoryDate("25-10-2018");
         missingImageDeliveriesDTO.setFilingHistoryDescription("Test");
+        missingImageDeliveriesDTO.setFilingHistoryType("filing history type");
         missingImageDeliveriesDTO.setId("1");
         missingImageDeliveriesDTO.setItemCost("Item cost");
         missingImageDeliveriesDTO.setOrderedAt(LocalDateTime.now());

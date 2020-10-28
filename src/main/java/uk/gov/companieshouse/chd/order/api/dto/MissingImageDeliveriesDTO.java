@@ -10,113 +10,113 @@ import java.time.LocalDateTime;
  */
 public class MissingImageDeliveriesDTO {
 
-	@JsonProperty("id")
-	private String id;
+    @JsonProperty("id")
+    private String id;
 
-	@JsonProperty("company_name")
-	private String companyName;
+    @JsonProperty("company_name")
+    private String companyName;
 
-	@JsonProperty("company_number")
-	private String companyNumber;
+    @JsonProperty("company_number")
+    private String companyNumber;
 
-	@JsonProperty("ordered_at")
-	private LocalDateTime orderedAt;
+    @JsonProperty("ordered_at")
+    private LocalDateTime orderedAt;
 
-	@JsonProperty("payment_reference")
-	private String paymentReference;
+    @JsonProperty("payment_reference")
+    private String paymentReference;
 
-	@JsonProperty("filing_history_type")
-	private String filingHistoryType;
+    @JsonProperty("filing_history_type")
+    private String filingHistoryType;
 
-	@JsonProperty("filing_history_category")
-	private String filingHistoryCategory;
-	
-	@JsonProperty("filing_history_description")
-	private String filingHistoryDescription;
+    @JsonProperty("filing_history_category")
+    private String filingHistoryCategory;
 
-	@JsonProperty("filing_history_date")
-	private String filingHistoryDate;
+    @JsonProperty("filing_history_description")
+    private String filingHistoryDescription;
 
-	@JsonProperty("item_cost")
-	private String itemCost;
+    @JsonProperty("filing_history_date")
+    private String filingHistoryDate;
 
-	public String getId() {
-		return id;
-	}
+    @JsonProperty("item_cost")
+    private String itemCost;
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    public String getId() {
+        return id;
+    }
 
-	public String getCompanyName() {
-		return companyName;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setCompanyName(String companyName) {
-		this.companyName = companyName;
-	}
+    public String getCompanyName() {
+        return companyName;
+    }
 
-	public String getCompanyNumber() {
-		return companyNumber;
-	}
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
 
-	public void setCompanyNumber(String companyNumber) {
-		this.companyNumber = companyNumber;
-	}
+    public String getCompanyNumber() {
+        return companyNumber;
+    }
 
-	public LocalDateTime getOrderedAt() {
-		return orderedAt;
-	}
+    public void setCompanyNumber(String companyNumber) {
+        this.companyNumber = companyNumber;
+    }
 
-	public void setOrderedAt(LocalDateTime orderedAt) {
-		this.orderedAt = orderedAt;
-	}
+    public LocalDateTime getOrderedAt() {
+        return orderedAt;
+    }
 
-	public String getPaymentReference() {
-		return paymentReference;
-	}
+    public void setOrderedAt(LocalDateTime orderedAt) {
+        this.orderedAt = orderedAt;
+    }
 
-	public void setPaymentReference(String paymentReference) {
-		this.paymentReference = paymentReference;
-	}
+    public String getPaymentReference() {
+        return paymentReference;
+    }
 
-	public String getFilingHistoryType() {
-		return filingHistoryType;
-	}
+    public void setPaymentReference(String paymentReference) {
+        this.paymentReference = paymentReference;
+    }
 
-	public void setFilingHistoryType(String filingHistoryType) {
-		this.filingHistoryType = filingHistoryType;
-	}
+    public String getFilingHistoryType() {
+        return filingHistoryType;
+    }
 
-	public String getFilingHistoryCategory() {
-		return filingHistoryCategory;
-	}
+    public void setFilingHistoryType(String filingHistoryType) {
+        this.filingHistoryType = filingHistoryType;
+    }
 
-	public void setFilingHistoryCategory(String filingHistoryCategory) {
-		this.filingHistoryCategory = filingHistoryCategory;
-	}
+    public String getFilingHistoryCategory() {
+        return filingHistoryCategory;
+    }
 
-	public String getFilingHistoryDescription() {
-		return filingHistoryDescription;
-	}
+    public void setFilingHistoryCategory(String filingHistoryCategory) {
+        this.filingHistoryCategory = filingHistoryCategory;
+    }
 
-	public void setFilingHistoryDescription(String filingHistoryDescription) {
-		this.filingHistoryDescription = filingHistoryDescription;
-	}
+    public String getFilingHistoryDescription() {
+        return filingHistoryDescription;
+    }
 
-	public String getFilingHistoryDate() {
-		return filingHistoryDate;
-	}
+    public void setFilingHistoryDescription(String filingHistoryDescription) {
+        this.filingHistoryDescription = filingHistoryDescription;
+    }
 
-	public void setFilingHistoryDate(String filingHistoryDate) {
-		this.filingHistoryDate = filingHistoryDate;
-	}
+    public String getFilingHistoryDate() {
+        return filingHistoryDate;
+    }
 
-	public String getItemCost() {
-		return itemCost;
-	}
+    public void setFilingHistoryDate(String filingHistoryDate) {
+        this.filingHistoryDate = filingHistoryDate;
+    }
 
-	public void setItemCost(String itemCost) {
-		this.itemCost = itemCost;
-	}
+    public String getItemCost() {
+        return itemCost;
+    }
+
+    public void setItemCost(String itemCost) {
+        this.itemCost = itemCost;
+    }
 }

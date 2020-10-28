@@ -13,7 +13,7 @@ import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.junit.Assert.assertTrue;
 
-public class CreateItemRequestValidatorTest {
+class CreateItemRequestValidatorTest {
 
     private CreateItemRequestValidator validatorUnderTest;
     private MissingImageDeliveriesDTO missingImageDeliveriesDTO;
@@ -26,6 +26,7 @@ public class CreateItemRequestValidatorTest {
     private final static String FILING_HISTORY_CATEGORY_ERROR = "filing_history_category: must not be null or empty in create item request";
     private final static String FILING_HISTORY_DESCRIPTION_ERROR = "filing_history_description: must not be null or empty in create item request";
     private final static String FILING_HISTORY_DATE_ERROR = "filing_history_date: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_TYPE_ERROR = "filing_history_type: must not be null or empty in create item request";
     private final static String ITEM_COST_ERROR = "item_cost: must not be null or empty in create item request";
 
     @BeforeEach
@@ -82,6 +83,7 @@ public class CreateItemRequestValidatorTest {
         missingImageDeliveriesDTO.setFilingHistoryCategory(null);
         missingImageDeliveriesDTO.setFilingHistoryDate(null);
         missingImageDeliveriesDTO.setFilingHistoryDescription(null);
+        missingImageDeliveriesDTO.setFilingHistoryType(null);
         missingImageDeliveriesDTO.setItemCost(null);
         missingImageDeliveriesDTO.setOrderedAt(null);
         missingImageDeliveriesDTO.setPaymentReference(null);
@@ -99,6 +101,7 @@ public class CreateItemRequestValidatorTest {
             FILING_HISTORY_CATEGORY_ERROR,
             FILING_HISTORY_DESCRIPTION_ERROR,
             FILING_HISTORY_DATE_ERROR,
+            FILING_HISTORY_TYPE_ERROR,
             ITEM_COST_ERROR));
     }
 
@@ -139,6 +142,7 @@ public class CreateItemRequestValidatorTest {
         missingImageDeliveriesDTO.setFilingHistoryCategory("");
         missingImageDeliveriesDTO.setFilingHistoryDate("");
         missingImageDeliveriesDTO.setFilingHistoryDescription("");
+        missingImageDeliveriesDTO.setFilingHistoryType("");
         missingImageDeliveriesDTO.setItemCost("");
         missingImageDeliveriesDTO.setOrderedAt(null);
         missingImageDeliveriesDTO.setPaymentReference("");
@@ -156,6 +160,7 @@ public class CreateItemRequestValidatorTest {
             FILING_HISTORY_CATEGORY_ERROR,
             FILING_HISTORY_DESCRIPTION_ERROR,
             FILING_HISTORY_DATE_ERROR,
+            FILING_HISTORY_TYPE_ERROR,
             ITEM_COST_ERROR));
     }
 }

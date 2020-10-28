@@ -9,6 +9,17 @@ import java.util.List;
 @Component
 public class CreateItemRequestValidator {
 
+    private final static String ID_ERROR = "id: must not be null or empty in a create item request";
+    private final static String COMPANY_NUMBER_ERROR = "company_number: must not be null or empty in create item request";
+    private final static String COMPANY_NAME_ERROR = "company_name: must not be null or empty in create item request";
+    private final static String ORDERED_AT_ERROR = "ordered_at: must not be null in create item request";
+    private final static String PAYMENT_REFERENCE_ERROR = "payment_reference: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_CATEGORY_ERROR = "filing_history_category: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_DESCRIPTION_ERROR = "filing_history_description: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_DATE_ERROR = "filing_history_date: must not be null or empty in create item request";
+    private final static String FILING_HISTORY_TYPE_ERROR = "filing_history_type: must not be null or empty in create item request";
+    private final static String ITEM_COST_ERROR = "item_cost: must not be null or empty in create item request";
+
     /**
      * Validates the item provided, returning any errors found.
      * @param item the item to be validated
@@ -16,33 +27,24 @@ public class CreateItemRequestValidator {
      */
     public List<String> getValidationErrors(final MissingImageDeliveriesDTO item) {
         final List<String> errors = new ArrayList<>();
-        if (item.getId() == null || item.getId().isEmpty()) {
-            errors.add("id: must not be null or empty in a create item request");
-        }
-        if (item.getCompanyName() == null || item.getCompanyName().isEmpty()) {
-            errors.add("company_name: must not be null or empty in create item request");
-        }
-        if (item.getCompanyNumber() == null || item.getCompanyNumber().isEmpty()) {
-            errors.add("company_number: must not be null or empty in create item request");
-        }
+        checkString(item.getId(), errors, ID_ERROR);
+        checkString(item.getCompanyNumber(), errors, COMPANY_NUMBER_ERROR);
+        checkString(item.getCompanyName(), errors, COMPANY_NAME_ERROR);
+        checkString(item.getPaymentReference(), errors, PAYMENT_REFERENCE_ERROR);
+        checkString(item.getFilingHistoryCategory(), errors, FILING_HISTORY_CATEGORY_ERROR);
+        checkString(item.getFilingHistoryDescription(), errors, FILING_HISTORY_DESCRIPTION_ERROR);
+        checkString(item.getFilingHistoryDate(), errors, FILING_HISTORY_DATE_ERROR);
+        checkString(item.getFilingHistoryType(), errors, FILING_HISTORY_TYPE_ERROR);
+        checkString(item.getItemCost(), errors, ITEM_COST_ERROR);
         if (item.getOrderedAt() == null) {
-            errors.add("ordered_at: must not be null in create item request");
-        }
-        if (item.getPaymentReference() == null || item.getPaymentReference().isEmpty()) {
-            errors.add("payment_reference: must not be null or empty in create item request");
-        }
-        if (item.getFilingHistoryCategory() == null || item.getFilingHistoryCategory().isEmpty()) {
-            errors.add("filing_history_category: must not be null or empty in create item request");
-        }
-        if (item.getFilingHistoryDescription() == null || item.getFilingHistoryDescription().isEmpty()) {
-            errors.add("filing_history_description: must not be null or empty in create item request");
-        }
-        if (item.getFilingHistoryDate() == null || item.getFilingHistoryDate().isEmpty()) {
-            errors.add("filing_history_date: must not be null or empty in create item request");
-        }
-        if (item.getItemCost() == null || item.getItemCost().isEmpty()) {
-            errors.add("item_cost: must not be null or empty in create item request");
+            errors.add(ORDERED_AT_ERROR);
         }
         return errors;
+    }
+
+    private void checkString(String string, List<String> errors, String errorMessage) {
+        if(string == null || string.isEmpty()){
+            errors.add(errorMessage);
+        }
     }
 }
