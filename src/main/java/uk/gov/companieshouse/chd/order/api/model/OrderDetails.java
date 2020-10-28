@@ -70,23 +70,17 @@ public class OrderDetails {
         return psNumber;
     }
 
-    public void setPsNumber(String psNumber) {
-        this.psNumber = psNumber;
-    }
+    public void setPsNumber(String psNumber) { this.psNumber = psNumber; }
 
     public long getSequenceNumber() {
         return sequenceNumber;
     }
 
-    public void setSequenceNumber(long sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
-    }
+    public void setSequenceNumber(long sequenceNumber) { this.sequenceNumber = sequenceNumber; }
 
     public long getProductCategory() { return productCategory; }
 
-    public void setProductCategory(long productCategory) {
-        this.productCategory = productCategory;
-    }
+    public void setProductCategory(long productCategory) { this.productCategory = productCategory; }
 
     public String getProductCode() { return productCode; }
 
@@ -104,73 +98,55 @@ public class OrderDetails {
         return productDescription;
     }
 
-    public void setProductDescription(String productDescription) {
-        this.productDescription = productDescription;
-    }
+    public void setProductDescription(String productDescription) { this.productDescription = productDescription; }
 
     public LocalDate getProductDate() {
         return productDate;
     }
 
-    public void setProductDate(LocalDate productDate) {
-        this.productDate = productDate;
-    }
+    public void setProductDate(LocalDate productDate) { this.productDate = productDate; }
 
     public String getCompanyNumber() {
         return companyNumber;
     }
 
-    public void setCompanyNumber(String companyNumber) {
-        this.companyNumber = companyNumber;
-    }
+    public void setCompanyNumber(String companyNumber) { this.companyNumber = companyNumber; }
 
     public String getCompanyName() {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
-        this.companyName = companyName;
-    }
+    public void setCompanyName(String companyName) { this.companyName = companyName; }
 
     public long getItemCost() {
         return itemCost;
     }
 
-    public void setItemCost(long itemCost) {
-        this.itemCost = itemCost;
-    }
+    public void setItemCost(long itemCost) { this.itemCost = itemCost; }
 
     public long getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(long quantity) {
-        this.quantity = quantity;
-    }
+    public void setQuantity(long quantity) { this.quantity = quantity; }
 
     public long getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
-        this.status = status;
-    }
+    public void setStatus(long status) { this.status = status; }
 
     public long getDeliveryMethod() {
         return deliveryMethod;
     }
 
-    public void setDeliveryMethod(long deliveryMethod) {
-        this.deliveryMethod = deliveryMethod;
-    }
+    public void setDeliveryMethod(long deliveryMethod) { this.deliveryMethod = deliveryMethod; }
 
     public long getDeliveryLocation() {
         return deliveryLocation;
     }
 
-    public void setDeliveryLocation(long deliveryLocation) {
-        this.deliveryLocation = deliveryLocation;
-    }
+    public void setDeliveryLocation(long deliveryLocation) { this.deliveryLocation = deliveryLocation; }
 
     public OrderHeader getOrderHeader() {
         return orderHeader;

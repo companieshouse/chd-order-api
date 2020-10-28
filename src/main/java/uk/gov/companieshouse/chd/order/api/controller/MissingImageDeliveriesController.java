@@ -18,7 +18,7 @@ import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
-import uk.gov.companieshouse.chd.order.api.service.CHDOrderService;
+import uk.gov.companieshouse.chd.order.api.service.OrderService;
 import uk.gov.companieshouse.logging.Logger;
 
 @RestController
@@ -26,13 +26,13 @@ public class MissingImageDeliveriesController {
 
 	private static final Logger LOGGER = LoggingUtils.getLogger();
 	private final MissingImageDeliveriesRequestMapper mapper;
-	private final CHDOrderService chdOrderService;
+	private final OrderService orderService;
 
 	/**
 	 * Constructor.
 	 */
-	public MissingImageDeliveriesController(CHDOrderService chdOrderService, MissingImageDeliveriesRequestMapper mapper) {
-		this.chdOrderService = chdOrderService;
+	public MissingImageDeliveriesController(OrderService orderService, MissingImageDeliveriesRequestMapper mapper) {
+		this.orderService = orderService;
 		this.mapper = mapper;
 	}
 
@@ -40,13 +40,14 @@ public class MissingImageDeliveriesController {
     public ResponseEntity<MissingImageDeliveriesDTO>
 		createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
             HttpServletRequest request) {
-		Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY, "");
+		Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY, midDTO.getCompanyNumber());
 
 		LOGGER.infoRequest(request, "create mid item request", logMap);
 		logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
 
 		MissingImageDeliveriesRequest midRequest = mapper.mapMissingImageDeliveriesRequest(midDTO);
-		//chdOrderService.saveOrderDetails(midRequest);
+		orderService.saveOrderDetails(midRequest);
+		LOGGER.infoRequest(request, "order details saved", logMap);
 
 		return ResponseEntity.status(HttpStatus.CREATED).body(midDTO);
     }

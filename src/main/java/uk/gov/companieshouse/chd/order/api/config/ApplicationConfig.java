@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import uk.gov.companieshouse.api.interceptor.InternalUserInterceptor;
 import uk.gov.companieshouse.chd.order.api.interceptor.ApiKeyAuthenticationInterceptor;
 import uk.gov.companieshouse.chd.order.api.interceptor.ApiKeyAuthorisationInterceptor;
 

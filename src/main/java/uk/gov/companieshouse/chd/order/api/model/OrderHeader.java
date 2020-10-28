@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
@@ -35,7 +36,6 @@ public class OrderHeader {
     private String paymentReference;
     @Basic
     @Column(name = "ORDDTETME")
-    //@Temporal(TemporalType.DATE)
     private LocalDateTime orderDateTime;
     @Basic
     @Column(name = "HANDCSR")
@@ -56,89 +56,67 @@ public class OrderHeader {
         return psNumber;
     }
 
-    public void setPsNumber(String psNumber) {
-        this.psNumber = psNumber;
-    }
+    public void setPsNumber(String psNumber) { this.psNumber = psNumber; }
 
     public long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(long customerId) {
-        this.customerId = customerId;
-    }
+    public void setCustomerId(long customerId) { this.customerId = customerId; }
 
     public long getCustomerVersion() {
         return customerVersion;
     }
 
-    public void setCustomerVersion(long customerVersion) {
-        this.customerVersion = customerVersion;
-    }
+    public void setCustomerVersion(long customerVersion) { this.customerVersion = customerVersion; }
 
     public long getPaymentMethod() {
         return paymentMethod;
     }
 
-    public void setPaymentMethod(long paymentMethod) {
-        this.paymentMethod = paymentMethod;
-    }
+    public void setPaymentMethod(long paymentMethod) { this.paymentMethod = paymentMethod; }
 
     public long getNumOrderLines() {
         return numOrderLines;
     }
 
-    public void setNumOrderLines(long numOrderLines) {
-        this.numOrderLines = numOrderLines;
-    }
+    public void setNumOrderLines(long numOrderLines) { this.numOrderLines = numOrderLines; }
 
     public String getPaymentReference() {
         return paymentReference;
     }
 
-    public void setPaymentReference(String paymentReference) {
-        this.paymentReference = paymentReference;
-    }
+    public void setPaymentReference(String paymentReference) { this.paymentReference = paymentReference; }
 
     public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
 
-    public void setOrderDateTime(LocalDateTime orderDateTime) {
-        this.orderDateTime = orderDateTime;
-    }
+    public void setOrderDateTime(LocalDateTime orderDateTime) { this.orderDateTime = orderDateTime; }
 
     public String getHandCsr() {
         return handCsr;
     }
 
-    public void setHandCsr(String handCsr) {
-        this.handCsr = handCsr;
-    }
+    public void setHandCsr(String handCsr) { this.handCsr = handCsr; }
 
     public long getStatus() {
         return status;
     }
 
-    public void setStatus(long status) {
-        this.status = status;
-    }
+    public void setStatus(long status) { this.status = status; }
 
     public long getFlags() {
         return flags;
     }
 
-    public void setFlags(long flags) {
-        this.flags = flags;
-    }
+    public void setFlags(long flags) { this.flags = flags; }
 
     public String getLanguage() {
         return language;
     }
 
-    public void setLanguage(String language) {
-        this.language = language;
-    }
+    public void setLanguage(String language) { this.language = language; }
 
     public Set<OrderDetails> getOrderDetails() {
         return orderDetails;

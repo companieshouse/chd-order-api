@@ -13,9 +13,12 @@ import uk.gov.companieshouse.logging.Logger;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.Map;
+
+import static uk.gov.companieshouse.chd.order.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
 
 @Service
-public class CHDOrderService {
+public class OrderService {
     private final OrderHeaderRepository orderHeaderRepository;
     private static final Logger LOGGER = LoggingUtils.getLogger();
 
@@ -34,7 +37,6 @@ public class CHDOrderService {
     private long FLAGS;
 
     private static final long SEQUENCE_NUMBER = 1;
-    private static final long ITEM_COST = 3;
     private static final long STATUS = 1;
     private static final long QUANTITY = 1;
     @Value("${chprd.delivery-method}")
@@ -42,17 +44,23 @@ public class CHDOrderService {
     @Value("${chprd.delivery-location}")
     private long DELIVERY_LOCATION;
 
-    public CHDOrderService(OrderHeaderRepository orderHeaderRepository) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
     }
 
-    public void saveOrderDetails(MissingImageDeliveriesRequest midRequest) {
+    /**
+     * Saves order details to CHPRD tables `ORDERHEADER` and `ORDERDETAIL` from data received in MID request.
+     * @param midRequest order details to be persisted
+     */
+    public OrderHeader saveOrderDetails(MissingImageDeliveriesRequest midRequest) {
+        Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY, midRequest.getCompanyNumber());
+
         OrderHeader orderHeader = createOrderHeader(midRequest);
         OrderDetails orderDetails = createOrderDetails(midRequest);
         orderHeader.setOrderDetails(Collections.singleton(orderDetails));
 
-        LOGGER.info("Saving order header");
-        orderHeaderRepository.save(orderHeader);
+        LOGGER.info("Saving order details", logMap);
+        return orderHeaderRepository.save(orderHeader);
     }
 
     private OrderHeader createOrderHeader(MissingImageDeliveriesRequest midRequest) {
@@ -85,11 +93,11 @@ public class CHDOrderService {
         orderDetails.setProductKey(midRequest.getFilingHistoryType());
         orderDetails.setProductSubKey(PRODUCT_SUB_KEY);
         orderDetails.setProductDescription(midRequest.getFilingHistoryDescription());
-        LocalDate productDate = LocalDate.parse(midRequest.getFilingHistoryDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd"));
+        LocalDate productDate = LocalDate.parse(midRequest.getFilingHistoryDate(), DateTimeFormatter.ISO_LOCAL_DATE);
         orderDetails.setProductDate(productDate);
         orderDetails.setDeliveryMethod(DELIVERY_METHOD);
         orderDetails.setDeliveryLocation(DELIVERY_LOCATION);
-        orderDetails.setItemCost(ITEM_COST);
+        orderDetails.setItemCost(Long.parseLong(midRequest.getItemCost()));
         orderDetails.setQuantity(QUANTITY);
         orderDetails.setStatus(STATUS);
 
