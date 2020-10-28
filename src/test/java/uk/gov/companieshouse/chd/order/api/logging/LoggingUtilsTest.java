@@ -24,10 +24,10 @@ public class LoggingUtilsTest {
     @Test
     @DisplayName("Calling createLoggingDataMap should return a Hash map with one key-value mapped")
     public void createLoggingDataMapReturn() {
-    	String key = "key";
-    	String value = "value";
-    	Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(key, value);
-    	
+        String key = "key";
+        String value = "value";
+        Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(key, value);
+
         assertNotNull(logMap);
         assertEquals(value, logMap.get(key));
     }

@@ -49,7 +49,7 @@ class MissingImageDeliveriesControllerTest {
 
     @Test
     @DisplayName("Create Missing image delivery successfully")
-    public void createMissingImageDeliverySuccessfully() {
+    void createMissingImageDeliverySuccessfully() {
         when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
             .thenReturn(new ArrayList<String>());
         final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
@@ -59,7 +59,7 @@ class MissingImageDeliveriesControllerTest {
 
     @Test
     @DisplayName("Create Missing image delivery failed")
-    public void createMissingImageDeliveryFailed() {
+    void createMissingImageDeliveryFailed() {
         ArrayList<String> errors = new ArrayList<String>();
         String message = "company_name: must not be null or empty in create item request";
         errors.add(message);
