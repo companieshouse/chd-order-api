@@ -1,11 +1,12 @@
 package uk.gov.companieshouse.chd.order.api.validator;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Component;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.apache.logging.log4j.util.Strings.isBlank;
 
 @Component
 public class CreateItemRequestValidator {
@@ -44,7 +45,7 @@ public class CreateItemRequestValidator {
     }
 
     private void checkString(String string, List<String> errors, String errorMessage) {
-        if(StringUtils.isBlank(string)){
+        if(isBlank(string)){
             errors.add(errorMessage);
         }
     }
