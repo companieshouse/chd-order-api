@@ -1,13 +1,5 @@
 package uk.gov.companieshouse.chd.order.api.controller;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-
-import java.time.LocalDateTime;
-
-import javax.servlet.http.HttpServletRequest;
-
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,14 +8,25 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.validator.CreateItemRequestValidator;
+
+import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class MissingImageDeliveriesControllerTest {
+class MissingImageDeliveriesControllerTest {
 
     @InjectMocks
     private MissingImageDeliveriesController controllerUnderTest;
+
+    @Mock
+    private CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator;
 
     @Mock
     private HttpServletRequest request;
@@ -46,21 +49,25 @@ public class MissingImageDeliveriesControllerTest {
 
     @Test
     @DisplayName("Create Missing image delivery successfully")
-    public void createMissingImageDeliverySuccessfully() {
-        final ResponseEntity<MissingImageDeliveriesDTO> response = controllerUnderTest.createMissingImageDelivery(
-                MISSING_IMAGE_DELIVERIES_DTO, request);
-
+    void createMissingImageDeliverySuccessfully() {
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+            .thenReturn(new ArrayList<String>());
+        final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
+            MISSING_IMAGE_DELIVERIES_DTO, request);
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getCompanyName(), response.getBody().getCompanyName());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getCompanyNumber(), response.getBody().getCompanyNumber());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryType(), response.getBody().getFilingHistoryType());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryCategory(), response.getBody().getFilingHistoryCategory());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryDate(), response.getBody().getFilingHistoryDate());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getFilingHistoryDescription(), response.getBody().getFilingHistoryDescription());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getId(), response.getBody().getId());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getItemCost(), response.getBody().getItemCost());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getOrderedAt(), response.getBody().getOrderedAt());
-        assertEquals(MISSING_IMAGE_DELIVERIES_DTO.getPaymentReference(), response.getBody().getPaymentReference());
     }
 
+    @Test
+    @DisplayName("Create Missing image delivery failed")
+    void createMissingImageDeliveryFailed() {
+        ArrayList<String> errors = new ArrayList<String>();
+        String message = "company_name: must not be null or empty in create item request";
+        errors.add(message);
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+            .thenReturn(errors);
+        final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
+            MISSING_IMAGE_DELIVERIES_DTO, request);
+        assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
+        assertThat(((ApiError)response.getBody()).getErrors().get(0), is(message));
+    }
 }
