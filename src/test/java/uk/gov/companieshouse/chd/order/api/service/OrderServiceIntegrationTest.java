@@ -77,6 +77,8 @@ public class OrderServiceIntegrationTest {
     @Value("${chprd.delivery-location}")
     private long deliveryLocation;
     private static final String SUBKEY = "SCUD";
+    private static final long REORDERED = 0;
+    private static final long NUM_ORDER_LINES = 1;
 
     @Test
     public void saveOrderDetailsPersistsOrderHeaderSuccessfully(){
@@ -103,6 +105,8 @@ public class OrderServiceIntegrationTest {
         assertThat(orderHeader.getFlags(), is(flags));
         assertThat(orderHeader.getOrderValue(), is(Long.parseLong(ITEM_COST)));
         assertThat(orderHeader.getPaymentMethod(), is(paymentMethod));
+        assertThat(orderHeader.getReordered(), is(REORDERED));
+        assertThat(orderHeader.getNumOrderLines(), is(NUM_ORDER_LINES));
         assertThat(orderHeader.getPsNumber(), is(ID));
         assertThat(orderDetails.getCompanyName(), is(COMPANY_NAME));
         assertThat(orderDetails.getCompanyNumber(), is(COMPANY_NUMBER));

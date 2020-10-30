@@ -25,6 +25,7 @@ public class OrderService {
     private static final long NUM_ORDER_LINES = 1;
     private static final long CUSTOMER_VERSION = 1;
     private static final String PRODUCT_SUB_KEY = "SCUD";
+    private static final long REORDERED = 0;
     @Value("${chprd.customer-id}")
     private long customerId;
     @Value("${chprd.payment-method}")
@@ -71,6 +72,7 @@ public class OrderService {
         orderHeader.setPsNumber(midRequest.getId());
         orderHeader.setOrderValue(Long.parseLong(midRequest.getItemCost()));
         orderHeader.setPaymentMethod(paymentMethod);
+        orderHeader.setReordered(REORDERED);
         orderHeader.setHandCsr(handcsr);
         orderHeader.setLanguage(language);
         orderHeader.setFlags(flags);
