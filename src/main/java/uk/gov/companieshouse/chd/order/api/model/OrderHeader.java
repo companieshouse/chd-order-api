@@ -1,5 +1,7 @@
 package uk.gov.companieshouse.chd.order.api.model;
 
+import org.springframework.data.domain.Persistable;
+
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +15,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "ORDERHEADER")
-public class OrderHeader {
+public class OrderHeader implements Persistable<String> {
     @Id
     @Basic
     @Column(name = "PSNUMBER")
@@ -167,5 +169,15 @@ public class OrderHeader {
     public int hashCode() {
         return Objects.hash(psNumber, customerId, customerVersion, orderValue, paymentMethod, numOrderLines, paymentReference,
                 orderDateTime, handCsr, status, flags, language, orderDetails);
+    }
+
+    @Override
+    public String getId() {
+        return getPsNumber();
+    }
+
+    @Override
+    public boolean isNew() {
+        return true;
     }
 }
