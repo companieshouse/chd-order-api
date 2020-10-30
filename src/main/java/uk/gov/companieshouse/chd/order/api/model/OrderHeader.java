@@ -31,6 +31,9 @@ public class OrderHeader {
     @Column(name = "PAYMENTMETHOD")
     private long paymentMethod;
     @Basic
+    @Column(name = "REORDERED")
+    private long reordered;
+    @Basic
     @Column(name = "NUMORDERLINES")
     private long numOrderLines;
     @Basic
@@ -83,6 +86,12 @@ public class OrderHeader {
     }
 
     public void setPaymentMethod(long paymentMethod) { this.paymentMethod = paymentMethod; }
+
+    public long getReordered() {
+        return reordered;
+    }
+
+    public void setReordered(long reordered) { this.reordered = reordered; }
 
     public long getNumOrderLines() {
         return numOrderLines;
