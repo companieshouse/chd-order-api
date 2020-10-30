@@ -25,6 +25,9 @@ public class OrderHeader {
     @Column(name = "CUSTVERSION")
     private long customerVersion;
     @Basic
+    @Column(name = "ORDERVALUE")
+    private long orderValue;
+    @Basic
     @Column(name = "PAYMENTMETHOD")
     private long paymentMethod;
     @Basic
@@ -68,6 +71,12 @@ public class OrderHeader {
     }
 
     public void setCustomerVersion(long customerVersion) { this.customerVersion = customerVersion; }
+
+    public long getOrderValue() {
+        return orderValue;
+    }
+
+    public void setOrderValue(long orderValue) { this.orderValue = orderValue; }
 
     public long getPaymentMethod() {
         return paymentMethod;
@@ -132,6 +141,7 @@ public class OrderHeader {
         OrderHeader that = (OrderHeader) o;
         return customerId == that.customerId &&
                 customerVersion == that.customerVersion &&
+                orderValue == that.orderValue &&
                 paymentMethod == that.paymentMethod &&
                 status == that.status &&
                 flags == that.flags &&
@@ -146,7 +156,7 @@ public class OrderHeader {
 
     @Override
     public int hashCode() {
-        return Objects.hash(psNumber, customerId, customerVersion, paymentMethod, numOrderLines, paymentReference,
+        return Objects.hash(psNumber, customerId, customerVersion, orderValue, paymentMethod, numOrderLines, paymentReference,
                 orderDateTime, handCsr, status, flags, language, orderDetails);
     }
 }

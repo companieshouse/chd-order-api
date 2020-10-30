@@ -69,6 +69,7 @@ public class OrderService {
         orderHeader.setCustomerVersion(CUSTOMER_VERSION);
         orderHeader.setCustomerId(customerId);
         orderHeader.setPsNumber(midRequest.getId());
+        orderHeader.setOrderValue(Long.parseLong(midRequest.getItemCost()));
         orderHeader.setPaymentMethod(paymentMethod);
         orderHeader.setHandCsr(handcsr);
         orderHeader.setLanguage(language);

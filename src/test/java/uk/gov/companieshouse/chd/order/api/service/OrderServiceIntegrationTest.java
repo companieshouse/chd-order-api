@@ -101,6 +101,7 @@ public class OrderServiceIntegrationTest {
         assertThat(orderHeader.getHandCsr(), is(handcsr));
         assertThat(orderHeader.getLanguage(), is(language));
         assertThat(orderHeader.getFlags(), is(flags));
+        assertThat(orderHeader.getOrderValue(), is(Long.parseLong(ITEM_COST)));
         assertThat(orderHeader.getPaymentMethod(), is(paymentMethod));
         assertThat(orderHeader.getPsNumber(), is(ID));
         assertThat(orderDetails.getCompanyName(), is(COMPANY_NAME));
