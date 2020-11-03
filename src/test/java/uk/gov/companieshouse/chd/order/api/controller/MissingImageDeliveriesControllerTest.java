@@ -1,5 +1,6 @@
 package uk.gov.companieshouse.chd.order.api.controller;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
 import uk.gov.companieshouse.chd.order.api.service.OrderService;
 import uk.gov.companieshouse.chd.order.api.validator.CreateItemRequestValidator;
@@ -77,5 +79,17 @@ class MissingImageDeliveriesControllerTest {
             MISSING_IMAGE_DELIVERIES_DTO, request);
         assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
         assertThat(((ApiError)response.getBody()).getErrors().get(0), is(message));
+    }
+    
+    @Test
+    @DisplayName("Test Database Exception on Creating Duplicate MID")
+    void createMissingImageDeliverTestExecutionDatabaseException() {
+
+    }
+    
+    @Test
+    @DisplayName("Test Data format Exception on Creating MID")
+    void createMissingImageDeliverTestExecutionException() {
+
     }
 }

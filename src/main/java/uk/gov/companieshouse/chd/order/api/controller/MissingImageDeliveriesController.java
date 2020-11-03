@@ -1,11 +1,13 @@
 package uk.gov.companieshouse.chd.order.api.controller;
 
+import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
@@ -42,7 +44,7 @@ public class MissingImageDeliveriesController {
 
     @PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
     public ResponseEntity<Object> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
-                                                             HttpServletRequest request) {
+                                                             HttpServletRequest request) throws OrderServiceException {
         Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY,
             midDTO.getCompanyNumber());
 
@@ -57,7 +59,24 @@ public class MissingImageDeliveriesController {
         }
 
         MissingImageDeliveriesRequest midRequest = mapper.mapMissingImageDeliveriesRequest(midDTO);
-        orderService.saveOrderDetails(midRequest);
+
+		try {
+			orderService.saveOrderDetails(midRequest);
+
+			// The duplicate attempt to insert a same record trigger a NullPointerException
+			// for some reason. TBT!! 
+		} catch (JDBCConnectionException | NullPointerException e) {
+			LOGGER.error("Database Exception on Creating MID.", e);
+			final String messageError = "Unable to insert Record";
+			// Instead of throwing error we should response with a different 2** httpstatus
+			// to avoid the infinite attempt on retry to save it.
+			throw new OrderServiceException(messageError);
+
+		} catch (Exception e) {
+			LOGGER.error("Data format Exception on Creating MID.", e);
+			throw (e);
+		}
+
         logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(midDTO);
