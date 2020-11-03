@@ -23,11 +23,12 @@ public class OrderService {
     private static final Logger LOGGER = LoggingUtils.getLogger();
 
     private static final long NUM_ORDER_LINES = 1;
-    private static final long CUSTOMER_VERSION = 1;
     private static final String PRODUCT_SUB_KEY = "SCUD";
     private static final long REORDERED = 0;
     @Value("${chprd.customer-id}")
     private long customerId;
+    @Value("${chprd.customer-version}")
+    private long customerVersion;
     @Value("${chprd.payment-method}")
     private long paymentMethod;
     @Value("${chprd.handcsr}")
@@ -67,7 +68,7 @@ public class OrderService {
     private OrderHeader createOrderHeader(MissingImageDeliveriesRequest midRequest) {
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setNumOrderLines(NUM_ORDER_LINES);
-        orderHeader.setCustomerVersion(CUSTOMER_VERSION);
+        orderHeader.setCustomerVersion(customerVersion);
         orderHeader.setCustomerId(customerId);
         orderHeader.setPsNumber(midRequest.getId());
         orderHeader.setOrderValue(Long.parseLong(midRequest.getItemCost()));

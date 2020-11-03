@@ -20,6 +20,7 @@ class ChdOrderApiApplicationTests {
     private static final String CHPRD_SCHEMA_NAME = "CHPRD_SCHEMA_NAME";
     private static final String CHPRD_PASSWORD = "CHPRD_PASSWORD";
     private static final String CHPRD_CUSTOMER_ID = "CHPRD_CUSTOMER_ID";
+    private static final String CHPRD_CUSTOMER_VERSION = "CHPRD_CUSTOMER_VERSION";
     private static final String CHPRD_PAYMENT_METHOD = "CHPRD_PAYMENT_METHOD";
     private static final String CHPRD_HANDCSR = "CHPRD_HANDCSR";
     private static final String CHPRD_STATUS = "CHPRD_STATUS";
@@ -139,6 +140,14 @@ class ChdOrderApiApplicationTests {
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
     }
+    
+    @Test
+    void checkEnvironmentVariablesMissingCHPRDCustomerVersionReturnsFalse() {
+        environmentVariables.clear(CHPRD_CUSTOMER_VERSION);
+        
+        boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
+        assertFalse(isPresent);
+    }
 
     @Test
     void contextLoads() {
@@ -150,6 +159,7 @@ class ChdOrderApiApplicationTests {
         environmentVariables.set(CHPRD_SCHEMA_NAME, CHPRD_SCHEMA_NAME);
         environmentVariables.set(CHPRD_PASSWORD, CHPRD_PASSWORD);
         environmentVariables.set(CHPRD_CUSTOMER_ID, CHPRD_CUSTOMER_ID);
+        environmentVariables.set(CHPRD_CUSTOMER_VERSION, CHPRD_CUSTOMER_VERSION);
         environmentVariables.set(CHPRD_PAYMENT_METHOD, CHPRD_PAYMENT_METHOD);
         environmentVariables.set(CHPRD_HANDCSR, CHPRD_HANDCSR);
         environmentVariables.set(CHPRD_STATUS, CHPRD_STATUS);
@@ -161,7 +171,8 @@ class ChdOrderApiApplicationTests {
 
     private void clearEnvironmentVariables() {
         environmentVariables.clear(CHS_API_KEY, CHPRD_DATASOURCE_URL, CHPRD_SCHEMA_NAME,
-            CHPRD_PASSWORD, CHPRD_CUSTOMER_ID, CHPRD_PAYMENT_METHOD, CHPRD_HANDCSR, CHPRD_STATUS,
-            CHPRD_FLAGS, CHPRD_LANGUAGE, CHPRD_DELIVMETH, CHPRD_DELIVLOCATION);
+            CHPRD_PASSWORD, CHPRD_CUSTOMER_ID, CHPRD_CUSTOMER_VERSION, CHPRD_PAYMENT_METHOD, 
+            CHPRD_HANDCSR, CHPRD_STATUS, CHPRD_FLAGS, CHPRD_LANGUAGE, CHPRD_DELIVMETH, 
+            CHPRD_DELIVLOCATION);
     }
 }
