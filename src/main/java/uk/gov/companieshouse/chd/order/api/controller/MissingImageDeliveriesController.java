@@ -62,19 +62,8 @@ public class MissingImageDeliveriesController {
 
 		try {
 			orderService.saveOrderDetails(midRequest);
-
-			// The duplicate attempt to insert a same record trigger a NullPointerException
-			// for some reason. TBT!! 
-		} catch (JDBCConnectionException | NullPointerException e) {
-			LOGGER.error("Database Exception on Creating MID.", e);
-			final String messageError = "Unable to insert Record";
-			// Instead of throwing error we should response with a different 2** httpstatus
-			// to avoid the infinite attempt on retry to save it.
-			throw new OrderServiceException(messageError);
-
-		} catch (Exception e) {
-			LOGGER.error("Data format Exception on Creating MID.", e);
-			throw (e);
+		} catch (OrderServiceException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
 		}
 
         logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);

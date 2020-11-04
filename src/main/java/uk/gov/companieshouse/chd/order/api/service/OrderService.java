@@ -1,7 +1,10 @@
 package uk.gov.companieshouse.chd.order.api.service;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+
+import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.model.FilingHistoryCategory;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
@@ -60,9 +63,16 @@ public class OrderService {
         OrderDetails orderDetails = createOrderDetails(midRequest);
         orderHeader.setOrderDetails(Collections.singleton(orderDetails));
 
-        LOGGER.info("Saving order details", logMap);
-        return orderHeaderRepository.save(orderHeader);
-    }
+		LOGGER.info("Saving order details", logMap);
+
+		try {
+			return orderHeaderRepository.save(orderHeader);
+		} catch (DataAccessException e) {
+			final String messageError = "Unable to save Request";
+			LOGGER.error(messageError + " - Exception on Creating MID.", e);
+			throw new OrderServiceException(messageError);
+		}
+	}
 
     private OrderHeader createOrderHeader(MissingImageDeliveriesRequest midRequest) {
         OrderHeader orderHeader = new OrderHeader();
