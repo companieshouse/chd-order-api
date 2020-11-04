@@ -8,6 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 @Entity
@@ -182,6 +183,6 @@ public class OrderDetails {
     @Override
     public int hashCode() {
         return Objects.hash(psNumber, sequenceNumber, productCategory, productCode, productKey, productSubKey, productDescription,
-                productDate, companyNumber, companyName, itemCost, quantity, status, deliveryMethod, deliveryLocation, orderHeader);
+                productDate, companyNumber, companyName, itemCost, quantity, status, deliveryMethod, deliveryLocation);
     }
 }
