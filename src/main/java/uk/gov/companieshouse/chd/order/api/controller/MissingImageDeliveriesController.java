@@ -1,6 +1,5 @@
 package uk.gov.companieshouse.chd.order.api.controller;
 
-import org.hibernate.exception.JDBCConnectionException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -44,7 +43,7 @@ public class MissingImageDeliveriesController {
 
     @PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
     public ResponseEntity<Object> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
-                                                             HttpServletRequest request) throws OrderServiceException {
+                                                             HttpServletRequest request) {
         Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY,
             midDTO.getCompanyNumber());
 
