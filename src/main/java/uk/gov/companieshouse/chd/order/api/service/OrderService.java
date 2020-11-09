@@ -72,9 +72,15 @@ public class OrderService {
         String paymentReference = midRequest.getPaymentReference();
         String barcode = midRequest.getFilingHistoryBarcode();
         String entityId = midRequest.getEntityID();
-        String finalPaymentReference = entityId != null ? paymentReference + entityId :
-            barcode != null ? paymentReference + "--" + barcode :
-            paymentReference;
+        String finalPaymentReference;
+
+        if (entityId != null) {
+            finalPaymentReference = paymentReference + entityId;
+        } else if (barcode != null) {
+            finalPaymentReference = paymentReference + "--" + barcode;
+        } else {
+            finalPaymentReference = paymentReference;
+        }
 
         orderHeader.setNumOrderLines(NUM_ORDER_LINES);
         orderHeader.setCustomerVersion(customerVersion);
