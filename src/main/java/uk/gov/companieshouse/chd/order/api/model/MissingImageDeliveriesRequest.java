@@ -13,6 +13,8 @@ public class MissingImageDeliveriesRequest {
 	private String filingHistoryType;
 	private String filingHistoryDescription;
 	private String filingHistoryDate;
+	private String filingHistoryBarcode;
+	private String entityID;
 	private String itemCost;
 
 	public String getId() {
@@ -83,6 +85,22 @@ public class MissingImageDeliveriesRequest {
 
 	public void setFilingHistoryDate(String filingHistoryDate) {
 		this.filingHistoryDate = filingHistoryDate;
+	}
+
+	public String getFilingHistoryBarcode() {
+		return filingHistoryBarcode;
+	}
+
+	public void setFilingHistoryBarcode(String filingHistoryBarcode) {
+		this.filingHistoryBarcode = filingHistoryBarcode;
+	}
+
+	public String getEntityID() {
+		return entityID;
+	}
+
+	public void setEntityID(String entityID) {
+		this.entityID = entityID;
 	}
 
 	public String getItemCost() {

@@ -49,6 +49,8 @@ class MissingImageDeliveriesControllerTest {
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryBarcode("111111");
+        MISSING_IMAGE_DELIVERIES_DTO.setEntityID("222222");
         MISSING_IMAGE_DELIVERIES_DTO.setId("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setItemCost("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setOrderedAt(LocalDateTime.now());
