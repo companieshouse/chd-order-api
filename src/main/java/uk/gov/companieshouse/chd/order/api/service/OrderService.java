@@ -1,9 +1,17 @@
 package uk.gov.companieshouse.chd.order.api.service;
 
+import static uk.gov.companieshouse.chd.order.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Collections;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.model.FilingHistoryCategory;
@@ -12,13 +20,6 @@ import uk.gov.companieshouse.chd.order.api.model.OrderDetails;
 import uk.gov.companieshouse.chd.order.api.model.OrderHeader;
 import uk.gov.companieshouse.chd.order.api.repository.OrderHeaderRepository;
 import uk.gov.companieshouse.logging.Logger;
-
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Collections;
-import java.util.Map;
-
-import static uk.gov.companieshouse.chd.order.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
 
 @Service
 public class OrderService {
@@ -67,13 +68,17 @@ public class OrderService {
 
 		LOGGER.info("Saving order details", logMap);
 
-		try {
-			return orderHeaderRepository.save(orderHeader);
-		} catch (DataAccessException e) {
-			final String messageError = "Unable to save Request";
-			LOGGER.error(messageError + " - Exception on Creating MID.", e);
-			throw new OrderServiceException(messageError);
-		}
+        try {
+            if (!orderHeaderRepository.existsById(orderHeader.getPsNumber())) {
+                return orderHeaderRepository.save(orderHeader);
+            } else {
+                final String messageError = "Duplicate Record";
+                throw new DuplicateEntryException(messageError);
+            }
+        } catch (DataAccessException e) {
+            final String messageError = "Unable to save Request";
+            throw new OrderServiceException(messageError);
+        }
 	}
 
     private OrderHeader createOrderHeader(MissingImageDeliveriesRequest midRequest) {
