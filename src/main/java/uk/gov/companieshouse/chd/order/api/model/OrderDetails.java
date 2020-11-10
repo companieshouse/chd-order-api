@@ -182,6 +182,6 @@ public class OrderDetails {
     @Override
     public int hashCode() {
         return Objects.hash(psNumber, sequenceNumber, productCategory, productCode, productKey, productSubKey, productDescription,
-                productDate, companyNumber, companyName, itemCost, quantity, status, deliveryMethod, deliveryLocation, orderHeader);
+                productDate, companyNumber, companyName, itemCost, quantity, status, deliveryMethod, deliveryLocation);
     }
 }

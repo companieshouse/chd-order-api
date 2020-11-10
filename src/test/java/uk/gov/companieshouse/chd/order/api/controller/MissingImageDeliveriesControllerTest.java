@@ -9,7 +9,9 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
+import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
 import uk.gov.companieshouse.chd.order.api.service.OrderService;
 import uk.gov.companieshouse.chd.order.api.validator.CreateItemRequestValidator;
 
@@ -19,6 +21,7 @@ import java.util.ArrayList;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -34,10 +37,16 @@ class MissingImageDeliveriesControllerTest {
     private HttpServletRequest request;
 
     @Mock
-    private MissingImageDeliveriesRequestMapper mapper;
+    private MissingImageDeliveriesRequestMapper midRequestMapper;
 
-    @Mock
-    private OrderService orderService;
+	@Mock
+	private MissingImageDeliveriesRequest midRequest;
+
+	@Mock
+	private OrderServiceException orderServiceException;
+
+	@Mock
+	private OrderService orderService;
 
     private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
 
@@ -80,4 +89,18 @@ class MissingImageDeliveriesControllerTest {
         assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
         assertThat(((ApiError)response.getBody()).getErrors().get(0), is(message));
     }
+    
+	@Test
+	@DisplayName("Test Exception on Creating MID - Unable to save Request messsage sent")
+	void createMissingImageDeliverTestExecutionException() {
+		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+				.thenReturn(new ArrayList<String>());
+		when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(midRequest);
+		when(orderService.saveOrderDetails(midRequest)).thenThrow(OrderServiceException.class);
+
+		final ResponseEntity<Object> response = controllerUnderTest
+				.createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
+
+		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+	}
 }

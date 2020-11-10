@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
@@ -57,7 +58,13 @@ public class MissingImageDeliveriesController {
         }
 
         MissingImageDeliveriesRequest midRequest = mapper.mapMissingImageDeliveriesRequest(midDTO);
-        orderService.saveOrderDetails(midRequest);
+
+		try {
+			orderService.saveOrderDetails(midRequest);
+		} catch (OrderServiceException e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
+		}
+
         logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(midDTO);
