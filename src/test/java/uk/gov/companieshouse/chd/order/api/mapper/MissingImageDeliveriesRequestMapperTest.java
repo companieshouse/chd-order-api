@@ -31,6 +31,8 @@ class MissingImageDeliveriesRequestMapperTest {
     private static final String FILING_HISTORY_CATEGORY = "officer";
     private static final String FILING_HISTORY_DATE = "2010-02-12";
     private static final String FILING_HISTORY_DESCRIPTION = "change-person-director-company-with-change-date";
+    private static final String FILING_HISTORY_BARCODE = "1111111";
+    private static final String ENTITY_ID = "222222";
 
     @Autowired
     private MissingImageDeliveriesRequestMapper mapperUnderTest;
@@ -47,6 +49,8 @@ class MissingImageDeliveriesRequestMapperTest {
         midDTO.setFilingHistoryCategory(FILING_HISTORY_CATEGORY);
         midDTO.setFilingHistoryDate(FILING_HISTORY_DATE);
         midDTO.setFilingHistoryDescription(FILING_HISTORY_DESCRIPTION);
+        midDTO.setFilingHistoryBarcode(FILING_HISTORY_BARCODE);
+        midDTO.setEntityID(ENTITY_ID);
 
         final MissingImageDeliveriesRequest midRequest = mapperUnderTest.mapMissingImageDeliveriesRequest(midDTO);
 
@@ -59,5 +63,7 @@ class MissingImageDeliveriesRequestMapperTest {
         assertThat(midRequest.getFilingHistoryCategory(), is(FILING_HISTORY_CATEGORY));
         assertThat(midRequest.getFilingHistoryDate(), is(FILING_HISTORY_DATE));
         assertThat(midRequest.getFilingHistoryDescription(), is(FILING_HISTORY_DESCRIPTION));
+        assertThat(midRequest.getFilingHistoryBarcode(), is(FILING_HISTORY_BARCODE));
+        assertThat(midRequest.getEntityID(), is(ENTITY_ID));
     }
 }

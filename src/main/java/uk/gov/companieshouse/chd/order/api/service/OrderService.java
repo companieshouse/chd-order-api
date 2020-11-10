@@ -55,6 +55,7 @@ public class OrderService {
 
     /**
      * Saves order details to CHPRD tables `ORDERHEADER` and `ORDERDETAIL` from data received in MID request.
+     *
      * @param midRequest order details to be persisted
      */
     public OrderHeader saveOrderDetails(MissingImageDeliveriesRequest midRequest) {
@@ -77,6 +78,20 @@ public class OrderService {
 
     private OrderHeader createOrderHeader(MissingImageDeliveriesRequest midRequest) {
         OrderHeader orderHeader = new OrderHeader();
+
+        String paymentReference = midRequest.getPaymentReference();
+        String barcode = midRequest.getFilingHistoryBarcode();
+        String entityId = midRequest.getEntityID();
+        String finalPaymentReference;
+
+        if (entityId != null) {
+            finalPaymentReference = paymentReference + entityId;
+        } else if (barcode != null) {
+            finalPaymentReference = paymentReference + "--" + barcode;
+        } else {
+            finalPaymentReference = paymentReference;
+        }
+
         orderHeader.setNumOrderLines(NUM_ORDER_LINES);
         orderHeader.setCustomerVersion(customerVersion);
         orderHeader.setCustomerId(customerId);
@@ -88,7 +103,7 @@ public class OrderService {
         orderHeader.setFlags(flags);
         orderHeader.setPaymentMethod(paymentMethod);
         orderHeader.setStatus(STATUS);
-        orderHeader.setPaymentReference(midRequest.getPaymentReference());
+        orderHeader.setPaymentReference(finalPaymentReference);
         orderHeader.setOrderDateTime(midRequest.getOrderedAt());
 
         return orderHeader;

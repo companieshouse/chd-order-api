@@ -37,6 +37,12 @@ public class MissingImageDeliveriesDTO {
     @JsonProperty("filing_history_date")
     private String filingHistoryDate;
 
+    @JsonProperty("filing_history_barcode")
+    private String filingHistoryBarcode;
+
+    @JsonProperty("entity_id")
+    private String entityID;
+
     @JsonProperty("item_cost")
     private String itemCost;
 
@@ -110,6 +116,22 @@ public class MissingImageDeliveriesDTO {
 
     public void setFilingHistoryDate(String filingHistoryDate) {
         this.filingHistoryDate = filingHistoryDate;
+    }
+
+    public String getFilingHistoryBarcode() {
+        return filingHistoryBarcode;
+    }
+
+    public void setFilingHistoryBarcode(String filingHistoryBarcode) {
+        this.filingHistoryBarcode = filingHistoryBarcode;
+    }
+
+    public String getEntityID() {
+        return entityID;
+    }
+
+    public void setEntityID(String entityID) {
+        this.entityID = entityID;
     }
 
     public String getItemCost() {

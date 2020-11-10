@@ -39,14 +39,14 @@ class MissingImageDeliveriesControllerTest {
     @Mock
     private MissingImageDeliveriesRequestMapper midRequestMapper;
 
-	@Mock
-	private MissingImageDeliveriesRequest midRequest;
+    @Mock
+    private MissingImageDeliveriesRequest midRequest;
 
-	@Mock
-	private OrderServiceException orderServiceException;
+    @Mock
+    private OrderServiceException orderServiceException;
 
-	@Mock
-	private OrderService orderService;
+    @Mock
+    private OrderService orderService;
 
     private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
 
@@ -58,6 +58,8 @@ class MissingImageDeliveriesControllerTest {
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
         MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");
+        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryBarcode("111111");
+        MISSING_IMAGE_DELIVERIES_DTO.setEntityID("222222");
         MISSING_IMAGE_DELIVERIES_DTO.setId("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setItemCost("Test");
         MISSING_IMAGE_DELIVERIES_DTO.setOrderedAt(LocalDateTime.now());
@@ -67,10 +69,11 @@ class MissingImageDeliveriesControllerTest {
     @Test
     @DisplayName("Create Missing image delivery successfully")
     void createMissingImageDeliverySuccessfully() {
-        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
-            .thenReturn(new ArrayList<String>());
-        final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
-            MISSING_IMAGE_DELIVERIES_DTO, request);
+        when(createMissingImageDeliveryItemRequestValidator
+                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                        .thenReturn(new ArrayList<String>());
+        final ResponseEntity<Object> response = controllerUnderTest
+                .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
     }
 
@@ -80,25 +83,27 @@ class MissingImageDeliveriesControllerTest {
         ArrayList<String> errors = new ArrayList<String>();
         String message = "company_name: must not be null or empty in create item request";
         errors.add(message);
-        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
-            .thenReturn(errors);
-        final ResponseEntity<Object> response = controllerUnderTest.createMissingImageDelivery(
-            MISSING_IMAGE_DELIVERIES_DTO, request);
+        when(createMissingImageDeliveryItemRequestValidator
+                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(errors);
+        final ResponseEntity<Object> response = controllerUnderTest
+                .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
         assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
-        assertThat(((ApiError)response.getBody()).getErrors().get(0), is(message));
+        assertThat(((ApiError) response.getBody()).getErrors().get(0), is(message));
     }
-    
-	@Test
-	@DisplayName("Test Exception on Creating MID - Unable to save Request messsage sent")
-	void createMissingImageDeliverTestExecutionException() {
-		when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
-				.thenReturn(new ArrayList<String>());
-		when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(midRequest);
-		when(orderService.saveOrderDetails(midRequest)).thenThrow(OrderServiceException.class);
 
-		final ResponseEntity<Object> response = controllerUnderTest
-				.createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
+    @Test
+    @DisplayName("Test Exception on Creating MID - Unable to save Request messsage sent")
+    void createMissingImageDeliverTestExecutionException() {
+        when(createMissingImageDeliveryItemRequestValidator
+                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                        .thenReturn(new ArrayList<String>());
+        when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO))
+                .thenReturn(midRequest);
+        when(orderService.saveOrderDetails(midRequest)).thenThrow(OrderServiceException.class);
 
-		assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
-	}
+        final ResponseEntity<Object> response = controllerUnderTest
+                .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
 }
