@@ -42,14 +42,14 @@ class OrderServiceTest {
     private static final String ENTITY_ID = "222222";
     private static final String PAYMENT_REFERENCE_APPENED_BARCODE = "payment xyz--1111111";
     private static final String PAYMENT_REFERENCE_APPENED_ENTITY_ID = "payment xyz222222";
-	private static final String FH_DESCRIPTION = "memorandum-articles";
-	private static final String FH_TYPE = "MEM/ARTS";
-	private static final String ID = "MID-898216-037074";
-	private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
-	private static final String COMPANY_NUMBER = "00006400";
-	private static final String PAYMENT_REF = "1234";
+    private static final String FH_DESCRIPTION = "memorandum-articles";
+    private static final String FH_TYPE = "MEM/ARTS";
+    private static final String ID = "MID-898216-037074";
+    private static final String COMPANY_NAME = "THE GIRLS' DAY SCHOOL TRUST";
+    private static final String COMPANY_NUMBER = "00006400";
+    private static final String PAYMENT_REF = "1234";
 
-	private static final String MSG_ERROR = "Unable to save Request";
+    private static final String MSG_ERROR = "Unable to save Request";
 
 
     @InjectMocks
@@ -59,25 +59,25 @@ class OrderServiceTest {
     private OrderHeaderRepository orderHeaderRepository;
 
     @Mock
-	private MissingImageDeliveriesRequest midRequest;
+    private MissingImageDeliveriesRequest midRequest;
 
-	@Mock
-	private OrderDetails orderDetails;
+    @Mock
+    private OrderDetails orderDetails;
 
-	@Mock
-	private OrderHeader orderHeaderTest;
+    @Mock
+    private OrderHeader orderHeaderTest;
 
-	@Mock
-	private DataAccessException dataAccessException;
+    @Mock
+    private DataAccessException dataAccessException;
 
-	@Mock
+    @Mock
     private OrderServiceException orderServiceException;
 
     @Captor
     ArgumentCaptor<OrderHeader> orderHeaderArgumentCaptor;
 
     @Test
-    void saveOrderDetailsPersistsOrderHeader(){
+    void saveOrderDetailsPersistsOrderHeader() {
         // given
         when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
         when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
@@ -134,28 +134,28 @@ class OrderServiceTest {
         assertEquals(PAYMENT_REFERENCE_APPENED_ENTITY_ID, orderHeaderValue.getPaymentReference());
     }
 
-	@Test
-	void saveOrderDetailsPersistsOrderHeaderTestOrderServiceException() {
-		// Given the request is Complete
-		when(midRequest.getId()).thenReturn(ID);
-		when(midRequest.getCompanyName()).thenReturn(COMPANY_NAME);
-		when(midRequest.getCompanyNumber()).thenReturn(COMPANY_NUMBER);
-		when(midRequest.getOrderedAt()).thenReturn(LocalDateTime.now());
-		when(midRequest.getPaymentReference()).thenReturn(PAYMENT_REF);
-		when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
-		when(midRequest.getFilingHistoryDescription()).thenReturn(FH_DESCRIPTION);
-		when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
-		when(midRequest.getFilingHistoryType()).thenReturn(FH_TYPE);
-		when(midRequest.getItemCost()).thenReturn(ITEM_COST);
-		orderHeaderTest.setOrderDetails(Collections.singleton(orderDetails));
+    @Test
+    void saveOrderDetailsPersistsOrderHeaderTestOrderServiceException() {
+        // Given the request is Complete
+        when(midRequest.getId()).thenReturn(ID);
+        when(midRequest.getCompanyName()).thenReturn(COMPANY_NAME);
+        when(midRequest.getCompanyNumber()).thenReturn(COMPANY_NUMBER);
+        when(midRequest.getOrderedAt()).thenReturn(LocalDateTime.now());
+        when(midRequest.getPaymentReference()).thenReturn(PAYMENT_REF);
+        when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
+        when(midRequest.getFilingHistoryDescription()).thenReturn(FH_DESCRIPTION);
+        when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
+        when(midRequest.getFilingHistoryType()).thenReturn(FH_TYPE);
+        when(midRequest.getItemCost()).thenReturn(ITEM_COST);
+        orderHeaderTest.setOrderDetails(Collections.singleton(orderDetails));
 
-		// When
-		doThrow(dataAccessException).when(orderHeaderRepository).save(any(OrderHeader.class));
+        // When
+        doThrow(dataAccessException).when(orderHeaderRepository).save(any(OrderHeader.class));
 
-		// Then we assert that we throw OrderServiceException inside the catch
-		// and message is set correctly
-		Exception exception = Assertions.assertThrows(OrderServiceException.class,
-				() -> serviceUnderTest.saveOrderDetails(midRequest));
-		assertTrue(exception.getMessage().contains(MSG_ERROR));
-	}
+        // Then we assert that we throw OrderServiceException inside the catch
+        // and message is set correctly
+        Exception exception = Assertions.assertThrows(OrderServiceException.class,
+                () -> serviceUnderTest.saveOrderDetails(midRequest));
+        assertTrue(exception.getMessage().contains(MSG_ERROR));
+    }
 }
