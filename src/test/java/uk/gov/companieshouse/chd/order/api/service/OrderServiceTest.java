@@ -40,8 +40,8 @@ class OrderServiceTest {
     private static final String ITEM_COST = "3";
     private static final String FILING_HISTORY_BARCODE = "1111111";
     private static final String ENTITY_ID = "222222";
-    private static final String PAYMENT_REFERENCE_APPENED_BARCODE = "payment xyz--1111111";
-    private static final String PAYMENT_REFERENCE_APPENED_ENTITY_ID = "payment xyz222222";
+    private static final String PAYMENT_REFERENCE_APPENDED_BARCODE = "payment xyz--1111111";
+    private static final String PAYMENT_REFERENCE_APPENDED_ENTITY_ID = "payment xyz222222";
     private static final String FH_DESCRIPTION = "memorandum-articles";
     private static final String FH_TYPE = "MEM/ARTS";
     private static final String ID = "MID-898216-037074";
@@ -102,7 +102,7 @@ class OrderServiceTest {
 
         OrderHeader orderHeaderValue = orderHeaderArgumentCaptor.getValue();
 
-        assertEquals(PAYMENT_REFERENCE_APPENED_BARCODE, orderHeaderValue.getPaymentReference());
+        assertEquals(PAYMENT_REFERENCE_APPENDED_BARCODE, orderHeaderValue.getPaymentReference());
     }
 
     @Test
@@ -116,7 +116,7 @@ class OrderServiceTest {
 
         OrderHeader orderHeaderValue = orderHeaderArgumentCaptor.getValue();
 
-        assertEquals(PAYMENT_REFERENCE_APPENED_ENTITY_ID, orderHeaderValue.getPaymentReference());
+        assertEquals(PAYMENT_REFERENCE_APPENDED_ENTITY_ID, orderHeaderValue.getPaymentReference());
     }
 
     @Test
@@ -131,7 +131,7 @@ class OrderServiceTest {
 
         OrderHeader orderHeaderValue = orderHeaderArgumentCaptor.getValue();
 
-        assertEquals(PAYMENT_REFERENCE_APPENED_ENTITY_ID, orderHeaderValue.getPaymentReference());
+        assertEquals(PAYMENT_REFERENCE_APPENDED_ENTITY_ID, orderHeaderValue.getPaymentReference());
     }
 
     @Test
