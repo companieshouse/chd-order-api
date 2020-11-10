@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
@@ -34,36 +35,49 @@ public class MissingImageDeliveriesController {
     /**
      * Constructor.
      */
-    public MissingImageDeliveriesController(final OrderService orderService, final MissingImageDeliveriesRequestMapper mapper,
-        final CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator) {
+    public MissingImageDeliveriesController(final OrderService orderService,
+            final MissingImageDeliveriesRequestMapper mapper,
+            final CreateItemRequestValidator createMissingImageDeliveryItemRequestValidator) {
         this.orderService = orderService;
         this.mapper = mapper;
         this.createMissingImageDeliveryItemRequestValidator = createMissingImageDeliveryItemRequestValidator;
     }
 
     @PostMapping("${uk.gov.companieshouse.chd.order.api.mid}")
-    public ResponseEntity<Object> createMissingImageDelivery(final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
-                                                             HttpServletRequest request) {
-        Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(COMPANY_NUMBER_LOG_KEY,
-            midDTO.getCompanyNumber());
+    public ResponseEntity<Object> createMissingImageDelivery(
+            final @Valid @RequestBody MissingImageDeliveriesDTO midDTO,
+            HttpServletRequest request) {
+        Map<String, Object> logMap = LoggingUtils.createLoggingDataMap(
+                COMPANY_NUMBER_LOG_KEY, midDTO.getCompanyNumber());
 
         LOGGER.infoRequest(request, "create mid item request", logMap);
 
-        final List<String> errors = createMissingImageDeliveryItemRequestValidator.getValidationErrors(midDTO);
+        final List<String> errors = createMissingImageDeliveryItemRequestValidator
+                .getValidationErrors(midDTO);
         if (!errors.isEmpty()) {
             logMap.put(ERRORS_LOG_KEY, errors);
             logMap.put(STATUS_LOG_KEY, BAD_REQUEST);
-            LOGGER.errorRequest(request, "create missing image delivery item validation errors", logMap);
-            return ResponseEntity.status(BAD_REQUEST).body(new ApiError(BAD_REQUEST, errors));
+            LOGGER.errorRequest(request,
+                    "create missing image delivery item validation errors",
+                    logMap);
+            return ResponseEntity.status(BAD_REQUEST)
+                    .body(new ApiError(BAD_REQUEST, errors));
         }
 
-        MissingImageDeliveriesRequest midRequest = mapper.mapMissingImageDeliveriesRequest(midDTO);
+        MissingImageDeliveriesRequest midRequest = mapper
+                .mapMissingImageDeliveriesRequest(midDTO);
 
-		try {
-			orderService.saveOrderDetails(midRequest);
-		} catch (OrderServiceException e) {
-			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(e.getMessage());
-		}
+        try {
+            orderService.saveOrderDetails(midRequest);
+        } catch (OrderServiceException e) {
+            LOGGER.error(e.getMessage() + " - Exception on Creating MID.", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        } catch (DuplicateEntryException e) {
+            LOGGER.error(e.getMessage() + " - Exception on Creating MID.", e);
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(e.getMessage());
+        }
 
         logMap.put(STATUS_LOG_KEY, HttpStatus.CREATED);
 

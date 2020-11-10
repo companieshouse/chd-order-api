@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
 import uk.gov.companieshouse.chd.order.api.model.FilingHistoryCategory;
@@ -66,14 +67,18 @@ public class OrderService {
 		LOGGER.info("Saving order details", logMap);
 
 		try {
-			return orderHeaderRepository.save(orderHeader);
+			if(!orderHeaderRepository.existsById(orderHeader.getPsNumber())){
+				return orderHeaderRepository.save(orderHeader);
+			} else {
+				final String messageError = "Duplicate Record";
+				throw new DuplicateEntryException(messageError);
+			}
 		} catch (DataAccessException e) {
 			final String messageError = "Unable to save Request";
-			LOGGER.error(messageError + " - Exception on Creating MID.", e);
 			throw new OrderServiceException(messageError);
 		}
 	}
-
+    
     private OrderHeader createOrderHeader(MissingImageDeliveriesRequest midRequest) {
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setNumOrderLines(NUM_ORDER_LINES);
