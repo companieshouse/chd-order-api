@@ -1,5 +1,15 @@
 package uk.gov.companieshouse.chd.order.api.controller;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.when;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -8,21 +18,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import uk.gov.companieshouse.chd.order.api.dto.MissingImageDeliveriesDTO;
+import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.mapper.MissingImageDeliveriesRequestMapper;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
 import uk.gov.companieshouse.chd.order.api.service.OrderService;
 import uk.gov.companieshouse.chd.order.api.validator.CreateItemRequestValidator;
-
-import javax.servlet.http.HttpServletRequest;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class MissingImageDeliveriesControllerTest {
@@ -105,5 +108,24 @@ class MissingImageDeliveriesControllerTest {
                 .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Test Exception on Creating MID - Duplicate Record")
+    void createMissingImageDeliverTestOnDuplicateEntryException() {
+        when(createMissingImageDeliveryItemRequestValidator
+                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                        .thenReturn(new ArrayList<String>());
+        when(midRequestMapper
+                .mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO))
+                        .thenReturn(midRequest);
+        when(orderService.saveOrderDetails(midRequest))
+                .thenThrow(DuplicateEntryException.class);
+
+        final ResponseEntity<Object> response = controllerUnderTest
+                .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO,
+                        request);
+
+        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
     }
 }
