@@ -1,16 +1,16 @@
 package uk.gov.companieshouse.chd.order.api.model;
 
 public enum ProductCode {
-    CODE_14010("14010"),
-    CODE_14011("14011"),
-    CODE_14012("14012"),
-    CODE_14013("14013"),
-    CODE_14014("14014"),
-    CODE_14015("14015"),
-    CODE_14016("14016"),
-    CODE_14017("14017"),
-    CODE_14018("14018"),
-    CODE_14019("14019");
+    CODE_44010("44010"),
+    CODE_44011("44011"),
+    CODE_44012("44012"),
+    CODE_44013("44013"),
+    CODE_44014("44014"),
+    CODE_44015("44015"),
+    CODE_44016("44016"),
+    CODE_44017("44017"),
+    CODE_44018("44018"),
+    CODE_44019("44019");
 
     private String value;
 
