@@ -10,9 +10,8 @@ import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.chd.order.api.testUtils.ItemSetup.setUpMissingImageDeliveriesRequest;
-
 import java.util.Collections;
-
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +22,13 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.dao.DataAccessException;
-
 import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
+import uk.gov.companieshouse.chd.order.api.model.Customer;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
 import uk.gov.companieshouse.chd.order.api.model.OrderDetails;
 import uk.gov.companieshouse.chd.order.api.model.OrderHeader;
+import uk.gov.companieshouse.chd.order.api.repository.CustomerRepository;
 import uk.gov.companieshouse.chd.order.api.repository.OrderHeaderRepository;
 
 
@@ -44,6 +44,9 @@ class OrderServiceTest {
 
     private static final String MSG_ERROR = "Unable to save Request";
     private static final String MSG_DUPLICATE_ERROR = "Duplicate Record";
+    private static Customer CUSTOMER;
+    private static final String EMAIL = "email";
+    private static final long CUSTOMER_ID = 0L;
 
 
     @InjectMocks
@@ -51,6 +54,9 @@ class OrderServiceTest {
 
     @Mock
     private OrderHeaderRepository orderHeaderRepository;
+    
+    @Mock
+    private CustomerRepository customerRepository;
 
     @Mock
     private MissingImageDeliveriesRequest midRequest;
@@ -69,6 +75,16 @@ class OrderServiceTest {
 
     @Captor
     ArgumentCaptor<OrderHeader> orderHeaderArgumentCaptor;
+    
+    @BeforeEach
+    void setup() {
+        CUSTOMER = new Customer();
+        CUSTOMER.setCustomerId(401987);
+        CUSTOMER.setCustomerVersion(2L);
+        CUSTOMER.setForename("forename");
+        CUSTOMER.setSurname("surname");
+        CUSTOMER.setEmail(EMAIL);
+    }
 
     @Test
     void saveOrderDetailsPersistsOrderHeader() {
@@ -76,6 +92,8 @@ class OrderServiceTest {
         when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
         when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
         when(midRequest.getItemCost()).thenReturn(ITEM_COST);
+        when(midRequest.getEmail()).thenReturn(EMAIL);
+        when(customerRepository.findCustomerByCustomerIdAndEmail(CUSTOMER_ID, EMAIL)).thenReturn(CUSTOMER);
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setOrderDetails(Collections.singleton(orderDetails));
 
