@@ -1,28 +1,38 @@
 package uk.gov.companieshouse.chd.order.api.model;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "CUSTOMER")
 public class Customer {
     
+    @Basic
     @Column(name="CUSTOMERID")
     private long customerId;
     
     @Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="customer_version_generator")
-    @SequenceGenerator(name="customer_version_generator", sequenceName="CUSTOMER_VERSION_SEQ")
-    @Column(name="CUSTOMERVERSION", updatable=false, nullable=false)
+    @Basic
+    @GeneratedValue(generator="customer_version_generator")
+    @SequenceGenerator(name="customer_version_generator", sequenceName="customer_version_seq", allocationSize=1)
+    @Column(name="CUSTOMERVERSION")
     private long customerVersion;
     
+    @Basic
     @Column(name="FORENAME")
     private String forename;
     
+    @Basic
     @Column(name="SURNAME")
     private String surname;
     
+    @Basic
     @Column(name="EMAIL")
     private String email;
 

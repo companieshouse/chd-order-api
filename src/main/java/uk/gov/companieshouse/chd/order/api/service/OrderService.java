@@ -145,8 +145,9 @@ public class OrderService {
         if(customer == null) {
             customer = new Customer();
             customer.setCustomerId(customerId);
-            customer.setForename("CHS");
-            customer.setSurname("CUSTOMER");
+            customer.setForename(forename);
+            customer.setSurname(surname);
+            customer.setEmail(email);
             customerRepository.save(customer);
         }
         return customer;

@@ -46,7 +46,7 @@ public class MissingImageDeliveriesDTO {
     @JsonProperty("item_cost")
     private String itemCost;
     
-    @JsonProperty("email")
+    @JsonProperty("email_address")
     private String email;
 
     public String getId() {
