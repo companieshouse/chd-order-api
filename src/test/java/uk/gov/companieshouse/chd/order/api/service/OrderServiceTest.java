@@ -8,11 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 import static uk.gov.companieshouse.chd.order.api.testUtils.ItemSetup.setUpMissingImageDeliveriesRequest;
-
 import java.util.Collections;
-
+import org.junit.Rule;
+import org.junit.contrib.java.lang.system.EnvironmentVariables;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -22,18 +24,21 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
-
 import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
+import uk.gov.companieshouse.chd.order.api.model.Customer;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
 import uk.gov.companieshouse.chd.order.api.model.OrderDetails;
 import uk.gov.companieshouse.chd.order.api.model.OrderHeader;
+import uk.gov.companieshouse.chd.order.api.repository.CustomerRepository;
 import uk.gov.companieshouse.chd.order.api.repository.OrderHeaderRepository;
 
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceTest {
+    
     private static final String FH_CATEGORY = "accounts";
     private static final String FH_DATE = "2018-04-22";
     private static final String ITEM_COST = "3";
@@ -44,6 +49,9 @@ class OrderServiceTest {
 
     private static final String MSG_ERROR = "Unable to save Request";
     private static final String MSG_DUPLICATE_ERROR = "Duplicate Record";
+    private static Customer CUSTOMER;
+    private static final String EMAIL = "email";
+    private static long CUSTOMER_ID=0L;
 
 
     @InjectMocks
@@ -51,6 +59,9 @@ class OrderServiceTest {
 
     @Mock
     private OrderHeaderRepository orderHeaderRepository;
+    
+    @Mock
+    private CustomerRepository customerRepository;
 
     @Mock
     private MissingImageDeliveriesRequest midRequest;
@@ -69,6 +80,20 @@ class OrderServiceTest {
 
     @Captor
     ArgumentCaptor<OrderHeader> orderHeaderArgumentCaptor;
+    
+    @Captor
+    ArgumentCaptor<Customer> customerArgumentCaptor;
+    
+    @BeforeEach
+    void setup() {
+        CUSTOMER = new Customer();
+        CUSTOMER.setCustomerId(CUSTOMER_ID);
+        CUSTOMER.setCustomerVersion(2L);
+        CUSTOMER.setForename("forename");
+        CUSTOMER.setSurname("surname");
+        CUSTOMER.setEmail(EMAIL);
+        
+    }
 
     @Test
     void saveOrderDetailsPersistsOrderHeader() {
@@ -76,6 +101,8 @@ class OrderServiceTest {
         when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
         when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
         when(midRequest.getItemCost()).thenReturn(ITEM_COST);
+        when(midRequest.getEmail()).thenReturn(EMAIL);
+        when(customerRepository.findCustomerByCustomerIdAndEmail(CUSTOMER_ID, EMAIL)).thenReturn(CUSTOMER);
         OrderHeader orderHeader = new OrderHeader();
         orderHeader.setOrderDetails(Collections.singleton(orderDetails));
 
@@ -83,7 +110,27 @@ class OrderServiceTest {
         // when and then
         assertThat(serviceUnderTest.saveOrderDetails(midRequest), is(orderHeader));
     }
+    
+    @Test
+    void saveOrderDetailsPersistsOrderHeaderNewCustomer() {
+        // given
+        when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
+        when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
+        when(midRequest.getItemCost()).thenReturn(ITEM_COST);
+        when(midRequest.getEmail()).thenReturn(EMAIL);
+        when(customerRepository.findCustomerByCustomerIdAndEmail(CUSTOMER_ID, EMAIL)).thenReturn(null);
+        when(customerRepository.save(any(Customer.class))).thenReturn(CUSTOMER);
+        OrderHeader orderHeader = new OrderHeader();
+        orderHeader.setOrderDetails(Collections.singleton(orderDetails));
 
+        doReturn(orderHeader).when(orderHeaderRepository).save(any(OrderHeader.class));
+        // when and then
+        serviceUnderTest.saveOrderDetails(midRequest);
+        Mockito.verify(customerRepository, times(1)).save(customerArgumentCaptor.capture());
+        Customer createdCustomer = customerArgumentCaptor.getValue();
+        assertEquals(CUSTOMER_ID, createdCustomer.getCustomerId());
+        assertEquals(EMAIL, createdCustomer.getEmail());
+    }
 
     @Test
     void paymentRefHasBarcodeAppended() {

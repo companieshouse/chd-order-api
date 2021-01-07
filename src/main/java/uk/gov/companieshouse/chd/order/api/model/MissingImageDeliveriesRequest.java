@@ -16,6 +16,7 @@ public class MissingImageDeliveriesRequest {
     private String filingHistoryBarcode;
     private String entityID;
     private String itemCost;
+    private String email;
 
     public String getId() {
         return id;
@@ -109,5 +110,13 @@ public class MissingImageDeliveriesRequest {
 
     public void setItemCost(String itemCost) {
         this.itemCost = itemCost;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

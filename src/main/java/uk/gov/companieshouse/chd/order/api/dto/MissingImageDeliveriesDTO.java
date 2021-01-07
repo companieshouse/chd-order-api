@@ -45,6 +45,9 @@ public class MissingImageDeliveriesDTO {
 
     @JsonProperty("item_cost")
     private String itemCost;
+    
+    @JsonProperty("email_address")
+    private String email;
 
     public String getId() {
         return id;
@@ -140,5 +143,13 @@ public class MissingImageDeliveriesDTO {
 
     public void setItemCost(String itemCost) {
         this.itemCost = itemCost;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

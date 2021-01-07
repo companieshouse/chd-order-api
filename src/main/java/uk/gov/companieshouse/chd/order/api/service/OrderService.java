@@ -1,29 +1,29 @@
 package uk.gov.companieshouse.chd.order.api.service;
 
 import static uk.gov.companieshouse.chd.order.api.logging.LoggingUtils.COMPANY_NUMBER_LOG_KEY;
-
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
 import uk.gov.companieshouse.chd.order.api.exception.DuplicateEntryException;
 import uk.gov.companieshouse.chd.order.api.exception.OrderServiceException;
 import uk.gov.companieshouse.chd.order.api.logging.LoggingUtils;
+import uk.gov.companieshouse.chd.order.api.model.Customer;
 import uk.gov.companieshouse.chd.order.api.model.FilingHistoryCategory;
 import uk.gov.companieshouse.chd.order.api.model.MissingImageDeliveriesRequest;
 import uk.gov.companieshouse.chd.order.api.model.OrderDetails;
 import uk.gov.companieshouse.chd.order.api.model.OrderHeader;
+import uk.gov.companieshouse.chd.order.api.repository.CustomerRepository;
 import uk.gov.companieshouse.chd.order.api.repository.OrderHeaderRepository;
 import uk.gov.companieshouse.logging.Logger;
 
 @Service
 public class OrderService {
     private final OrderHeaderRepository orderHeaderRepository;
+    private final CustomerRepository customerRepository;
     private static final Logger LOGGER = LoggingUtils.getLogger();
 
     private static final long NUM_ORDER_LINES = 1;
@@ -31,8 +31,6 @@ public class OrderService {
     private static final long REORDERED = 0;
     @Value("${chprd.customer-id}")
     private long customerId;
-    @Value("${chprd.customer-version}")
-    private long customerVersion;
     @Value("${chprd.payment-method}")
     private long paymentMethod;
     @Value("${chprd.handcsr}")
@@ -41,6 +39,10 @@ public class OrderService {
     private String language;
     @Value("${chprd.flags}")
     private long flags;
+    @Value("${chprd.forename}")
+    private String forename;
+    @Value("${chprd.surname}")
+    private String surname;
 
     private static final long SEQUENCE_NUMBER = 1;
     private static final long STATUS = 1;
@@ -50,8 +52,9 @@ public class OrderService {
     @Value("${chprd.delivery-location}")
     private long deliveryLocation;
 
-    public OrderService(OrderHeaderRepository orderHeaderRepository) {
+    public OrderService(OrderHeaderRepository orderHeaderRepository, CustomerRepository customerRepository) {
         this.orderHeaderRepository = orderHeaderRepository;
+        this.customerRepository = customerRepository;
     }
 
     /**
@@ -98,7 +101,7 @@ public class OrderService {
         }
 
         orderHeader.setNumOrderLines(NUM_ORDER_LINES);
-        orderHeader.setCustomerVersion(customerVersion);
+        orderHeader.setCustomerVersion(getCustomerForOrder(midRequest.getEmail()).getCustomerVersion());
         orderHeader.setCustomerId(customerId);
         orderHeader.setPsNumber(midRequest.getId());
         orderHeader.setOrderValue(Long.parseLong(midRequest.getItemCost()));
@@ -135,5 +138,18 @@ public class OrderService {
         orderDetails.setStatus(STATUS);
 
         return orderDetails;
+    }
+    
+    private Customer getCustomerForOrder(String email) {
+        Customer customer = customerRepository.findCustomerByCustomerIdAndEmail(customerId, email);
+        if(customer == null) {
+            customer = new Customer();
+            customer.setCustomerId(customerId);
+            customer.setForename(forename);
+            customer.setSurname(surname);
+            customer.setEmail(email);
+            customerRepository.save(customer);
+        }
+        return customer;
     }
 }

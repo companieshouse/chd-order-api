@@ -20,7 +20,6 @@ class ChdOrderApiApplicationTests {
     private static final String CHPRD_SCHEMA_NAME = "CHPRD_SCHEMA_NAME";
     private static final String CHPRD_PASSWORD = "CHPRD_PASSWORD";
     private static final String CHPRD_CUSTOMER_ID = "CHPRD_CUSTOMER_ID";
-    private static final String CHPRD_CUSTOMER_VERSION = "CHPRD_CUSTOMER_VERSION";
     private static final String CHPRD_PAYMENT_METHOD = "CHPRD_PAYMENT_METHOD";
     private static final String CHPRD_HANDCSR = "CHPRD_HANDCSR";
     private static final String CHPRD_STATUS = "CHPRD_STATUS";
@@ -28,6 +27,8 @@ class ChdOrderApiApplicationTests {
     private static final String CHPRD_LANGUAGE = "CHPRD_LANGUAGE";
     private static final String CHPRD_DELIVMETH = "CHPRD_DELIVMETH";
     private static final String CHPRD_DELIVLOCATION = "CHPRD_DELIVLOCATION";
+    private static final String CHPRD_FORENAME="CHPRD_FORENAME";
+    private static final String CHPRD_SURNAME="CHPRD_SURNAME";
 
     @BeforeEach
     void init() {
@@ -142,8 +143,16 @@ class ChdOrderApiApplicationTests {
     }
     
     @Test
-    void checkEnvironmentVariablesMissingCHPRDCustomerVersionReturnsFalse() {
-        environmentVariables.clear(CHPRD_CUSTOMER_VERSION);
+    void checkEnvironmentVariablesMissingCHPRDForenameReturnsFalse() {
+        environmentVariables.clear(CHPRD_FORENAME);
+        
+        boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
+        assertFalse(isPresent);
+    }
+    
+    @Test
+    void checkEnvironmentVariablesMissingCHPRDSurnameReturnsFalse() {
+        environmentVariables.clear(CHPRD_SURNAME);
         
         boolean isPresent = ChdOrderApiApplication.checkEnvironmentVariables();
         assertFalse(isPresent);
@@ -159,7 +168,6 @@ class ChdOrderApiApplicationTests {
         environmentVariables.set(CHPRD_SCHEMA_NAME, CHPRD_SCHEMA_NAME);
         environmentVariables.set(CHPRD_PASSWORD, CHPRD_PASSWORD);
         environmentVariables.set(CHPRD_CUSTOMER_ID, CHPRD_CUSTOMER_ID);
-        environmentVariables.set(CHPRD_CUSTOMER_VERSION, CHPRD_CUSTOMER_VERSION);
         environmentVariables.set(CHPRD_PAYMENT_METHOD, CHPRD_PAYMENT_METHOD);
         environmentVariables.set(CHPRD_HANDCSR, CHPRD_HANDCSR);
         environmentVariables.set(CHPRD_STATUS, CHPRD_STATUS);
@@ -167,12 +175,14 @@ class ChdOrderApiApplicationTests {
         environmentVariables.set(CHPRD_LANGUAGE, CHPRD_LANGUAGE);
         environmentVariables.set(CHPRD_DELIVMETH, CHPRD_DELIVMETH);
         environmentVariables.set(CHPRD_DELIVLOCATION, CHPRD_DELIVLOCATION);
+        environmentVariables.set(CHPRD_FORENAME, CHPRD_FORENAME);
+        environmentVariables.set(CHPRD_SURNAME, CHPRD_SURNAME);
     }
 
     private void clearEnvironmentVariables() {
         environmentVariables.clear(CHS_API_KEY, CHPRD_DATASOURCE_URL, CHPRD_SCHEMA_NAME,
-            CHPRD_PASSWORD, CHPRD_CUSTOMER_ID, CHPRD_CUSTOMER_VERSION, CHPRD_PAYMENT_METHOD, 
+            CHPRD_PASSWORD, CHPRD_CUSTOMER_ID, CHPRD_PAYMENT_METHOD, 
             CHPRD_HANDCSR, CHPRD_STATUS, CHPRD_FLAGS, CHPRD_LANGUAGE, CHPRD_DELIVMETH, 
-            CHPRD_DELIVLOCATION);
+            CHPRD_DELIVLOCATION, CHPRD_FORENAME, CHPRD_SURNAME);
     }
 }
