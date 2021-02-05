@@ -51,6 +51,7 @@ class OrderServiceTest {
     private static final String MSG_DUPLICATE_ERROR = "Duplicate Record";
     private static Customer CUSTOMER;
     private static final String EMAIL = "email";
+    private static final String EMAIL_OVER_40_CHARS = "this-email-address-is-longer-than-fourty-characters-in-length";
     private static long CUSTOMER_ID=0L;
 
 
@@ -96,6 +97,7 @@ class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("Test that an order is saved with an existing customer")
     void saveOrderDetailsPersistsOrderHeader() {
         // given
         when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
@@ -112,6 +114,7 @@ class OrderServiceTest {
     }
     
     @Test
+    @DisplayName("Test that an order is saved with a new customer")
     void saveOrderDetailsPersistsOrderHeaderNewCustomer() {
         // given
         when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
@@ -131,8 +134,34 @@ class OrderServiceTest {
         assertEquals(CUSTOMER_ID, createdCustomer.getCustomerId());
         assertEquals(EMAIL, createdCustomer.getEmail());
     }
+    
+    @Test
+    @DisplayName("Test that an order is saved correctly with a new customer with an email address longer than 40 characters")
+    void saveOrderDetailsPersistsOrderHeaderNewCustomerWithLongEmailAddress() {
+        // given
+        when(midRequest.getFilingHistoryCategory()).thenReturn(FH_CATEGORY);
+        when(midRequest.getFilingHistoryDate()).thenReturn(FH_DATE);
+        when(midRequest.getItemCost()).thenReturn(ITEM_COST);
+        when(midRequest.getEmail()).thenReturn(EMAIL_OVER_40_CHARS);
+        when(customerRepository.findCustomerByCustomerIdAndEmail(CUSTOMER_ID, EMAIL_OVER_40_CHARS)).thenReturn(null);
+        when(customerRepository.save(any(Customer.class))).thenReturn(CUSTOMER);
+        OrderHeader orderHeader = new OrderHeader();
+        orderHeader.setOrderDetails(Collections.singleton(orderDetails));
+
+        doReturn(orderHeader).when(orderHeaderRepository).save(any(OrderHeader.class));
+        // when and then
+        serviceUnderTest.saveOrderDetails(midRequest);
+        Mockito.verify(customerRepository, times(1)).save(customerArgumentCaptor.capture());
+        Customer createdCustomer = customerArgumentCaptor.getValue();
+        assertEquals(CUSTOMER_ID, createdCustomer.getCustomerId());
+        assertEquals(EMAIL_OVER_40_CHARS, createdCustomer.getEmail());
+        String first40Chars = EMAIL_OVER_40_CHARS.substring(0, 40);
+        assertEquals(first40Chars, createdCustomer.getPremises());
+        assertEquals(first40Chars, createdCustomer.getAddrline1());
+    }
 
     @Test
+    @DisplayName("test that the payment reference field includes the barcode")
     void paymentRefHasBarcodeAppended() {
         final MissingImageDeliveriesRequest midRequest = setUpMissingImageDeliveriesRequest();
         midRequest.setFilingHistoryBarcode(FILING_HISTORY_BARCODE);
@@ -147,6 +176,7 @@ class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("Test that the payment reference field includes the entity id")
     void paymentRefHasEntityIdAppended() {
         final MissingImageDeliveriesRequest midRequest = setUpMissingImageDeliveriesRequest();
         midRequest.setEntityID(ENTITY_ID);
@@ -161,6 +191,7 @@ class OrderServiceTest {
     }
 
     @Test
+    @DisplayName("Test that the payment reference field includes the entity id when both entity id and barcode are available")
     void paymentRefHasEntityIdAppendedWhenBarcodeIsAlsoAvailable() {
         final MissingImageDeliveriesRequest midRequest = setUpMissingImageDeliveriesRequest();
         midRequest.setEntityID(ENTITY_ID);
