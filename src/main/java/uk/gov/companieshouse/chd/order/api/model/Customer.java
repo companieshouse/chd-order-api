@@ -34,6 +34,14 @@ public class Customer {
     @Basic
     @Column(name="EMAIL")
     private String email;
+    
+    @Basic
+    @Column(name="PREMISES")
+    private String premises;
+    
+    @Basic
+    @Column(name="ADDRLINE1")
+    private String addrline1;
 
     public long getCustomerId() {
         return customerId;
@@ -73,5 +81,21 @@ public class Customer {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPremises() {
+        return premises;
+    }
+
+    public void setPremises(String premises) {
+        this.premises = premises;
+    }
+
+    public String getAddrline1() {
+        return addrline1;
+    }
+
+    public void setAddrline1(String addrline1) {
+        this.addrline1 = addrline1;
     }
 }

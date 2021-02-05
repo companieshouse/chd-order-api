@@ -147,9 +147,23 @@ public class OrderService {
             customer.setCustomerId(customerId);
             customer.setForename(forename);
             customer.setSurname(surname);
+            customer.setPremises(substring40Chars(email));
+            customer.setAddrline1(substring40Chars(email));
             customer.setEmail(email);
             customerRepository.save(customer);
         }
         return customer;
+    }
+    
+    /**
+     * method to check if a string is 40 characters and return :
+     * 1. null if the provided string is null, 
+     * 2. the first 40 character if the string is longer than 40 characters
+     * 3. the string is less than 40 characters
+     * @param s
+     * @return
+     */
+    private String substring40Chars(String s) {
+        return (s == null)? s : (s.length() > 40)? s.substring(0, 40) : s;
     }
 }
