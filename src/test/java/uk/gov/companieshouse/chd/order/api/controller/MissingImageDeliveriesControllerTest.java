@@ -3,6 +3,7 @@ package uk.gov.companieshouse.chd.order.api.controller;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
@@ -10,9 +11,12 @@ import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -43,13 +47,15 @@ class MissingImageDeliveriesControllerTest {
     private MissingImageDeliveriesRequestMapper midRequestMapper;
 
     @Mock
-    private MissingImageDeliveriesRequest midRequest;
-
-    @Mock
     private OrderServiceException orderServiceException;
 
     @Mock
     private OrderService orderService;
+    
+    @Captor
+    private ArgumentCaptor<MissingImageDeliveriesRequest> midRequestCaptor;
+
+    private MissingImageDeliveriesRequest midRequest;
 
     private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
 
@@ -69,12 +75,18 @@ class MissingImageDeliveriesControllerTest {
         MISSING_IMAGE_DELIVERIES_DTO.setPaymentReference("Test");
     }
 
+    @BeforeEach
+    void setUp() {
+        midRequest = new MissingImageDeliveriesRequest();
+        midRequest.setFilingHistoryType("TestType");
+    }
+
     @Test
     @DisplayName("Create Missing image delivery successfully")
     void createMissingImageDeliverySuccessfully() {
-        when(createMissingImageDeliveryItemRequestValidator
-                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
-                        .thenReturn(new ArrayList<String>());
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                .thenReturn(new ArrayList<String>());
+        when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(midRequest);
         final ResponseEntity<Object> response = controllerUnderTest
                 .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
         assertThat(response.getStatusCode(), is(HttpStatus.CREATED));
@@ -86,8 +98,8 @@ class MissingImageDeliveriesControllerTest {
         ArrayList<String> errors = new ArrayList<String>();
         String message = "company_name: must not be null or empty in create item request";
         errors.add(message);
-        when(createMissingImageDeliveryItemRequestValidator
-                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(errors);
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                .thenReturn(errors);
         final ResponseEntity<Object> response = controllerUnderTest
                 .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
         assertThat(response.getStatusCode(), is(HttpStatus.BAD_REQUEST));
@@ -97,11 +109,9 @@ class MissingImageDeliveriesControllerTest {
     @Test
     @DisplayName("Test Exception on Creating MID - Unable to save Request messsage sent")
     void createMissingImageDeliverTestExecutionException() {
-        when(createMissingImageDeliveryItemRequestValidator
-                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
-                        .thenReturn(new ArrayList<String>());
-        when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO))
-                .thenReturn(midRequest);
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                .thenReturn(new ArrayList<String>());
+        when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(midRequest);
         when(orderService.saveOrderDetails(midRequest)).thenThrow(OrderServiceException.class);
 
         final ResponseEntity<Object> response = controllerUnderTest
@@ -113,19 +123,28 @@ class MissingImageDeliveriesControllerTest {
     @Test
     @DisplayName("Test Exception on Creating MID - Duplicate Record")
     void createMissingImageDeliverTestOnDuplicateEntryException() {
-        when(createMissingImageDeliveryItemRequestValidator
-                .getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
-                        .thenReturn(new ArrayList<String>());
-        when(midRequestMapper
-                .mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO))
-                        .thenReturn(midRequest);
-        when(orderService.saveOrderDetails(midRequest))
-                .thenThrow(DuplicateEntryException.class);
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                .thenReturn(new ArrayList<String>());
+        when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(midRequest);
+        when(orderService.saveOrderDetails(midRequest)).thenThrow(DuplicateEntryException.class);
 
         final ResponseEntity<Object> response = controllerUnderTest
-                .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO,
-                        request);
+                .createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
 
         assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+    }
+
+    @Test
+    @DisplayName("Test conversion of filing history type from RESOLUTIONS to RES")
+    void createMissingImageDeliveryFilingHistoryTypeResolutionsConversion() {
+        when(createMissingImageDeliveryItemRequestValidator.getValidationErrors(MISSING_IMAGE_DELIVERIES_DTO))
+                .thenReturn(new ArrayList<String>());
+        midRequest.setFilingHistoryType("RESOLUTIONS");
+        when(midRequestMapper.mapMissingImageDeliveriesRequest(MISSING_IMAGE_DELIVERIES_DTO)).thenReturn(midRequest);
+
+        controllerUnderTest.createMissingImageDelivery(MISSING_IMAGE_DELIVERIES_DTO, request);
+        verify(orderService).saveOrderDetails(midRequestCaptor.capture());
+        
+        assertEquals("RES", midRequestCaptor.getValue().getFilingHistoryType());
     }
 }
