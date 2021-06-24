@@ -63,7 +63,7 @@ public class MissingImageDeliveriesController {
 
         MissingImageDeliveriesRequest midRequest = mapper.mapMissingImageDeliveriesRequest(midDTO);
         if(midRequest.getFilingHistoryType().startsWith("RESOLUTIONS")) {
-        	midRequest.setFilingHistoryType(midRequest.getFilingHistoryType().replaceFirst("RESOLUTIONS", "RES"));
+            midRequest.setFilingHistoryType(midRequest.getFilingHistoryType().replaceFirst("RESOLUTIONS", "RES"));
         }
 
         try {
