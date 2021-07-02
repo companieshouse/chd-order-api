@@ -31,6 +31,9 @@
         <junit-jupiter-engine-version>5.2.0</junit-jupiter-engine-version>
         <mockito-junit-jupiter-version>2.18.0</mockito-junit-jupiter-version>
         <api-security-java.version>0.2.12</api-security-java.version>
+
+        <!-- Docker -->
+        <jib-maven-plugin.version>3.1.1</jib-maven-plugin.version>
     </properties>
 
     <dependencyManagement>
@@ -186,7 +189,7 @@
             <plugin>
                 <groupId>com.google.cloud.tools</groupId>
                 <artifactId>jib-maven-plugin</artifactId>
-                <version>2.6.0</version>
+                <version>${jib-maven-plugin.version}</version>
             </plugin>
 
         </plugins>
