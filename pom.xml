@@ -31,7 +31,7 @@
         <junit-jupiter-engine-version>5.2.0</junit-jupiter-engine-version>
         <junit-jupiter.version>5.4.2</junit-jupiter.version>
         <mockito-junit-jupiter-version>2.18.0</mockito-junit-jupiter-version>
-        <api-security-java.version>0.3.4</api-security-java.version>
+        <api-security-java.version>2.0.1</api-security-java.version>
         <spring-boot-starter-data-rest.version>3.1.5</spring-boot-starter-data-rest.version>
         <spring-boot-starter-test.version>3.1.5</spring-boot-starter-test.version>
         <spring-boot-starter-web.version>3.1.5</spring-boot-starter-web.version>
