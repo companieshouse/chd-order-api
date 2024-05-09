@@ -38,29 +38,13 @@ class MissingImageDeliveriesControllerIntegrationTest {
     @MockBean
     private OrderService orderService;
 
-    private static final MissingImageDeliveriesDTO MISSING_IMAGE_DELIVERIES_DTO;
-
-    static {
-        MISSING_IMAGE_DELIVERIES_DTO = new MissingImageDeliveriesDTO();
-        MISSING_IMAGE_DELIVERIES_DTO.setCompanyName("Test");
-        MISSING_IMAGE_DELIVERIES_DTO.setCompanyNumber("123");
-        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryType("TestType");
-        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryCategory("Test");
-        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDate("25-10-2018");
-        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryDescription("Test");
-        MISSING_IMAGE_DELIVERIES_DTO.setFilingHistoryBarcode("111111");
-        MISSING_IMAGE_DELIVERIES_DTO.setEntityID("222222");
-        MISSING_IMAGE_DELIVERIES_DTO.setId("Test");
-        MISSING_IMAGE_DELIVERIES_DTO.setItemCost("Test");
-        MISSING_IMAGE_DELIVERIES_DTO.setOrderedAt(LocalDateTime.now());
-        MISSING_IMAGE_DELIVERIES_DTO.setPaymentReference("Test");
-    }
-
     @Test
     @DisplayName("Create Missing Image Delivery returns 201 on valid headers")
     void createMissingImageDeliverySucceedsOnValidHeaders() throws Exception {
 
-        final String content = objectMapper.writeValueAsString(MISSING_IMAGE_DELIVERIES_DTO);
+        MissingImageDeliveriesDTO missingImageDeliveriesDTO = missingImageDeliveriesDTO();
+        missingImageDeliveriesDTO.setCompanyName("Test");
+        String content = objectMapper.writeValueAsString(missingImageDeliveriesDTO);
 
         mockMvc.perform(post(MISSING_IMAGE_DELIVERIES_URL)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
@@ -73,14 +57,43 @@ class MissingImageDeliveriesControllerIntegrationTest {
     }
 
     @Test
-    @DisplayName("Create Missing Image Delivery returns 403 on invalid ERIC-Identity-Type")
-    void createMissingImageDeliveryFailsOnInvalidIdentityType() throws Exception {
+    @DisplayName("Create Missing Image Delivery returns 415 on invalid headers")
+    void createMissingImageDeliveryFailsOnInvalidHeader() throws Exception {
         mockMvc.perform(post(MISSING_IMAGE_DELIVERIES_URL)
                 .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
                 .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
-                .header(ERIC_IDENTITY_TYPE, "invalid")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(MISSING_IMAGE_DELIVERIES_DTO)))
-                .andExpect(status().isForbidden());
+                .header(ERIC_IDENTITY_TYPE, API_KEY_IDENTITY_TYPE)
+                .content(objectMapper.writeValueAsString(missingImageDeliveriesDTO())))
+                .andExpect(status().isUnsupportedMediaType());
     }
+
+    @Test
+    @DisplayName("Create Missing Image Delivery returns 400 on invalid headers")
+    void createMissingImageDeliveryFailsOnMissingField() throws Exception {
+        mockMvc.perform(post(MISSING_IMAGE_DELIVERIES_URL)
+                        .header(REQUEST_ID_HEADER_NAME, REQUEST_ID_VALUE)
+                        .header(ERIC_IDENTITY, ERIC_IDENTITY_VALUE)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .header(ERIC_IDENTITY_TYPE, API_KEY_IDENTITY_TYPE)
+                        .content(objectMapper.writeValueAsString(missingImageDeliveriesDTO())))
+                .andExpect(status().isBadRequest());
+    }
+
+
+    private MissingImageDeliveriesDTO missingImageDeliveriesDTO(){
+        MissingImageDeliveriesDTO  missingImageDeliveriesDTO = new MissingImageDeliveriesDTO();
+        missingImageDeliveriesDTO.setCompanyNumber("123");
+        missingImageDeliveriesDTO.setFilingHistoryType("TestType");
+        missingImageDeliveriesDTO.setFilingHistoryCategory("Test");
+        missingImageDeliveriesDTO.setFilingHistoryDate("25-10-2018");
+        missingImageDeliveriesDTO.setFilingHistoryDescription("Test");
+        missingImageDeliveriesDTO.setFilingHistoryBarcode("111111");
+        missingImageDeliveriesDTO.setEntityID("222222");
+        missingImageDeliveriesDTO.setId("Test");
+        missingImageDeliveriesDTO.setItemCost("Test");
+        missingImageDeliveriesDTO.setOrderedAt(LocalDateTime.now());
+        missingImageDeliveriesDTO.setPaymentReference("Test");
+        return missingImageDeliveriesDTO;
+    }
+
 }
