@@ -1,7 +1,6 @@
 # ------------------------------------------------------------------------------
 # Environment
 # ------------------------------------------------------------------------------
-
 variable "environment" {
   type        = string
   description = "The environment name, defined in environments vars."
@@ -42,6 +41,17 @@ variable "required_memory" {
   type = number
   description = "The required memory for this service"
   default = 512 # defaulted low for node service in dev environments, override for production
+}
+
+variable "eric_cpus" {
+  type = number
+  description = "The required cpu resource for eric. 1024 here is 1 vCPU"
+  default = 256
+}
+variable "eric_memory" {
+  type = number
+  description = "The required memory for eric"
+  default = 512
 }
 
 variable "max_task_count" {
@@ -120,4 +130,9 @@ variable "use_set_environment_files" {
 variable "chd_order_api_version" {
   type        = string
   description = "The version of the chd-order-api container to run."
+}
+
+variable "eric_version" {
+  type        = string
+  description = "The version of the eric container to run."
 }

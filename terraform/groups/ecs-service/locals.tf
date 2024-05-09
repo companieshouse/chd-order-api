@@ -5,6 +5,7 @@ locals {
   global_prefix              = "global-${var.environment}"
   service_name               = "chd-order-api"
   container_port             = 8080
+  eric_port                  = "10000"
   docker_repo                = "chd-order-api"
   kms_alias                  = "alias/${var.aws_profile}/environment-services-kms"
   lb_listener_rule_priority  = 84
@@ -46,6 +47,14 @@ locals {
     for sec in module.secrets.secrets :
     trimprefix(sec.name, "/${local.service_name}-${var.environment}/") => sec.arn
   }
+
+  # get eric secrets from global secrets map
+  eric_secrets = [
+    { "name": "API_KEY", "valueFrom": local.global_secrets_arn_map.eric_api_key },
+    { "name": "AES256_KEY", "valueFrom": local.global_secrets_arn_map.eric_aes256_key }
+  ]
+  eric_environment_filename = "eric.env"
+
 
   service_secret_list = flatten([for key, value in local.service_secrets_arn_map :
     { "name" = upper(key), "valueFrom" = value }
