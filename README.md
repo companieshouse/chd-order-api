@@ -4,7 +4,7 @@
 CHS API handling CRUD operations for ordering missing images through the Companies House Direct (CHD) database
 
 ### Requirements
-* [Java 8][1]
+* [Java 21][1]
 * [Maven][2]
 * [Git][3]
 
@@ -34,6 +34,6 @@ Path | Method | Description
 --- | --- | ---
 *`chd-order-api/healthcheck`* | GET | Returns HTTP OK (`200`) to indicate a healthy application instance.
 
-[1]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[1]: https://www.oracle.com/java/technologies/downloads/#java21
 [2]: https://maven.apache.org/download.cgi
 [3]: https://git-scm.com/downloads

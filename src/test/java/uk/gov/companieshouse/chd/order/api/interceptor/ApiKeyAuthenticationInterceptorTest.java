@@ -6,11 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.lenient;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY;
 import static uk.gov.companieshouse.api.util.security.EricConstants.ERIC_IDENTITY_TYPE;
@@ -47,6 +47,12 @@ public class ApiKeyAuthenticationInterceptorTest {
     public void willNotAuthoriseIfIdentityTypeHeaderIsNotPresent() {
         lenient().doReturn(ERIC_IDENTITY_VALUE).when(request).getHeader(ERIC_IDENTITY);
         lenient().doReturn(null).when(request).getHeader(ERIC_IDENTITY_TYPE);
+        assertFalse(apiKeyAuthenticationInterceptor.preHandle(request, response, null));
+    }
+    @Test
+    public void willNotAuthoriseIfIdentityTypeHeaderIsInvalid() {
+        lenient().doReturn(ERIC_IDENTITY_VALUE).when(request).getHeader(ERIC_IDENTITY);
+        lenient().doReturn("some-incorrect-identity-type").when(request).getHeader(null);
         assertFalse(apiKeyAuthenticationInterceptor.preHandle(request, response, null));
     }
 }
