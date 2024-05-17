@@ -9,7 +9,7 @@ locals {
   docker_repo                = "chd-order-api"
   kms_alias                  = "alias/${var.aws_profile}/environment-services-kms" 
   lb_listener_rule_priority  = 184
-  lb_listener_paths          = ["^/chd-order-api.*", "/chd-order-api/healthcheck"]
+  lb_listener_paths          = ["/chd-order-api.*", "/chd-order-api/healthcheck"]
   healthcheck_path           = "/chd-order-api/healthcheck" # healthcheck path for chd-order-api
   healthcheck_matcher        = "200"
   vpc_name                   = local.stack_secrets["vpc_name"]
