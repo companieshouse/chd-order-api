@@ -7,7 +7,7 @@ locals {
   container_port             = 8080
   eric_port                  = "10000"
   docker_repo                = "chd-order-api"
-  kms_alias                  = "alias/${var.aws_profile}/environment-services-kms"
+  kms_alias                  = "alias/${var.aws_profile}/environment-services-kms" 
   lb_listener_rule_priority  = 184
   lb_listener_paths          = ["^/chd-order-api.*", "/chd-order-api/healthcheck"]
   healthcheck_path           = "/chd-order-api/healthcheck" # healthcheck path for chd-order-api
