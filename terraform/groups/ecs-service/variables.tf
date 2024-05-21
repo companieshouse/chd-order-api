@@ -1,7 +1,6 @@
 # ------------------------------------------------------------------------------
 # Environment
 # ------------------------------------------------------------------------------
-
 variable "environment" {
   type        = string
   description = "The environment name, defined in environments vars."
