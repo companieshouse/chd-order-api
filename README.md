@@ -50,7 +50,7 @@ Application specific attributes | Value                                | Descrip
 :---------|:-----------------------------------------------------------------------------|:-----------
 **ECS Cluster**        |order-service                                      | ECS cluster (stack) the service belongs to
 **Load balancer**      |{env}-chs-apichgovuk-private                                        | The load balancer that sits in front of the service
-**Concourse pipeline**     |[Pipeline link](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/image-redaction-api ) <br> [Pipeline code](https://github.com/companieshouse/ci-pipelines/blob/master/pipelines/ssplatform/team-development/chd-order-api )                                  | Concourse pipeline link in shared services
+**Concourse pipeline**     |[Pipeline link](https://ci-platform.companieshouse.gov.uk/teams/team-development/pipelines/chd-order-api ) <br> [Pipeline code](https://github.com/companieshouse/ci-pipelines/blob/master/pipelines/ssplatform/team-development/chd-order-api )                                  | Concourse pipeline link in shared services
 
 
 ### Contributing
