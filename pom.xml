@@ -53,6 +53,25 @@
         <webcompere-version>2.1.6</webcompere-version>
         <!-- Docker -->
         <jib-maven-plugin.version>3.4.1</jib-maven-plugin.version>
+
+        <!-- sonar config -->
+		<sonar-maven-plugin.version>4.0.0.4121</sonar-maven-plugin.version>
+		<sonar.java.binaries>${project.basedir}/target</sonar.java.binaries>
+		<sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
+		<sonar.login></sonar.login>
+		<sonar.password></sonar.password>
+		<sonar.projectKey>uk.gov.companieshouse:chd-order-api</sonar.projectKey>
+		<sonar.projectName>chd-order-api</sonar.projectName>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/target/site/jacoco/jacoco.xml,
+			${project.basedir}/target/site/jacoco-it/jacoco.xml
+		</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.jacoco.reports>${project.basedir}/target/site</sonar.jacoco.reports>
+		<sonar.dependencyCheck.htmlReportPath>
+			${project.basedir}/target/dependency-check-report.html
+		</sonar.dependencyCheck.htmlReportPath>
+		<sonar.java.binaries>
+			${project.basedir}/target
+		</sonar.java.binaries>
     </properties>
 
 
