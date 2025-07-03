@@ -41,6 +41,7 @@
         <api-security-java.version>2.0.8</api-security-java.version>
         <commons-lang3.version>3.17.0</commons-lang3.version>
         <system-lambda-version>1.2.1</system-lambda-version>
+        <opentelemetry-version>2.14.0</opentelemetry-version>
 
         <!-- internal -->
         <structured-logging.version>3.0.33</structured-logging.version>
