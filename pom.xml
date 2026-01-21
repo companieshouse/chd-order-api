@@ -26,6 +26,7 @@
 
         <spring-boot-dependencies.version>3.5.3</spring-boot-dependencies.version>
         <spring-boot-maven-plugin.version>3.5.3</spring-boot-maven-plugin.version>
+        <spring-core.version>6.2.11</spring-core.version>
         <start-class>uk.gov.companieshouse.chd.order.api.ChdOrderApiApplication</start-class>
 
         <environment-reader-library.version>3.0.1</environment-reader-library.version>
@@ -250,6 +251,12 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
             <version>${tomcat-embed-websocket.version}</version>
+        </dependency>
+        <!-- CVE-2025-41242 and CVE-2025-41249 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring-core.version}</version>
         </dependency>
     </dependencies>
 
