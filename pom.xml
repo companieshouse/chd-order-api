@@ -26,6 +26,7 @@
 
         <spring-boot-dependencies.version>3.5.3</spring-boot-dependencies.version>
         <spring-boot-maven-plugin.version>3.5.3</spring-boot-maven-plugin.version>
+        <spring-core.version>6.2.11</spring-core.version>
         <start-class>uk.gov.companieshouse.chd.order.api.ChdOrderApiApplication</start-class>
 
         <environment-reader-library.version>3.0.1</environment-reader-library.version>
@@ -42,8 +43,8 @@
         <commons-lang3.version>3.19.0</commons-lang3.version>
         <system-lambda-version>1.2.1</system-lambda-version>
         <opentelemetry-version>2.14.0</opentelemetry-version>
-        <tomcat-embed-core.version>10.1.46</tomcat-embed-core.version>
-        <tomcat-embed-websocket.version>11.0.11</tomcat-embed-websocket.version>
+        <tomcat-embed-core.version>10.1.47</tomcat-embed-core.version>
+        <tomcat-embed-websocket.version>11.0.15</tomcat-embed-websocket.version>
 
         <!-- internal -->
         <structured-logging.version>3.0.33</structured-logging.version>
@@ -250,6 +251,18 @@
             <groupId>org.apache.tomcat.embed</groupId>
             <artifactId>tomcat-embed-websocket</artifactId>
             <version>${tomcat-embed-websocket.version}</version>
+        </dependency>
+        <!-- CVE-2025-41242 and CVE-2025-41249 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring-core.version}</version>
+        </dependency>
+            <!-- CVE-2025-68161-->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.25.3</version>
         </dependency>
     </dependencies>
 
