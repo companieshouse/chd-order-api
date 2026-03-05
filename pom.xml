@@ -42,9 +42,10 @@
         <api-security-java.version>2.0.8</api-security-java.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
         <system-lambda-version>1.2.1</system-lambda-version>
-        <opentelemetry-version>2.14.0</opentelemetry-version>
+        <opentelemetry-version>2.21.0</opentelemetry-version>
         <tomcat-embed-core.version>11.0.14</tomcat-embed-core.version>
         <tomcat-embed-websocket.version>11.0.15</tomcat-embed-websocket.version>
+        <kotlin-stdlib.version>2.2.21</kotlin-stdlib.version>
 
         <!-- internal -->
         <structured-logging.version>3.0.37</structured-logging.version>
@@ -264,6 +265,14 @@
             <artifactId>log4j-api</artifactId>
             <version>2.25.3</version>
         </dependency>
+        <!-- Pinning version to address CVE-2020-29582(5.3) in kotlin-stdlib:jar:1.9.25
+    pulled transitively by opentelemetry-spring-boot-starter:jar:2.25.0 -->
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib</artifactId>
+            <version>${kotlin-stdlib.version}</version>
+        </dependency>
+
     </dependencies>
 
     <build>
