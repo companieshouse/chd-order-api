@@ -24,7 +24,7 @@
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <oracle.jdbc11.version>23.8.0.25.04</oracle.jdbc11.version>
 
-        <spring-boot-dependencies.version>3.5.7</spring-boot-dependencies.version>
+        <spring-boot-dependencies.version>3.5.11</spring-boot-dependencies.version>
         <spring-boot-maven-plugin.version>3.5.3</spring-boot-maven-plugin.version>
         <spring-core.version>6.2.11</spring-core.version>
         <start-class>uk.gov.companieshouse.chd.order.api.ChdOrderApiApplication</start-class>
@@ -46,6 +46,7 @@
         <tomcat-embed-core.version>11.0.14</tomcat-embed-core.version>
         <tomcat-embed-websocket.version>11.0.15</tomcat-embed-websocket.version>
         <kotlin-stdlib.version>2.2.21</kotlin-stdlib.version>
+        <h2database.version>2.4.240</h2database.version>
 
         <!-- internal -->
         <structured-logging.version>3.0.37</structured-logging.version>
@@ -212,6 +213,7 @@
         <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
+            <version>${h2database.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
