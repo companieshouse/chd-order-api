@@ -44,9 +44,10 @@
         <system-lambda-version>1.2.1</system-lambda-version>
         <opentelemetry-version>2.21.0</opentelemetry-version>
         <tomcat-embed-core.version>11.0.22</tomcat-embed-core.version>
-        <tomcat-embed-websocket.version>11.0.15</tomcat-embed-websocket.version>
+        <tomcat-embed-websocket.version>11.0.22</tomcat-embed-websocket.version>
         <kotlin-stdlib.version>2.2.21</kotlin-stdlib.version>
         <h2database.version>2.4.240</h2database.version>
+        <log4j.version>2.26.0</log4j.version>
 
         <!-- internal -->
         <structured-logging.version>3.0.37</structured-logging.version>
@@ -98,6 +99,21 @@
                 <groupId>org.apache.tomcat.embed</groupId>
                 <artifactId>tomcat-embed-core</artifactId>
                 <version>${tomcat-embed-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.tomcat.embed</groupId>
+                <artifactId>tomcat-embed-websocket</artifactId>
+                <version>${tomcat-embed-websocket.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>${log4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-to-slf4j</artifactId>
+                <version>${log4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -247,11 +263,6 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>${fasterxml-jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.tomcat.embed</groupId>
-            <artifactId>tomcat-embed-websocket</artifactId>
-            <version>${tomcat-embed-websocket.version}</version>
         </dependency>
         <!-- CVE-2025-41242 and CVE-2025-41249 -->
         <dependency>
