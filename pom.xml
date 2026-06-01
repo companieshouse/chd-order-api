@@ -270,12 +270,6 @@
             <artifactId>spring-core</artifactId>
             <version>${spring-core.version}</version>
         </dependency>
-            <!-- CVE-2025-68161-->
-        <dependency>
-            <groupId>org.apache.logging.log4j</groupId>
-            <artifactId>log4j-api</artifactId>
-            <version>2.25.3</version>
-        </dependency>
         <!-- Pinning version to address CVE-2020-29582(5.3) in kotlin-stdlib:jar:1.9.25
     pulled transitively by opentelemetry-spring-boot-starter:jar:2.25.0 -->
         <dependency>
