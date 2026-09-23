@@ -6,7 +6,7 @@
     <parent>
         <groupId>uk.gov.companieshouse</groupId>
         <artifactId>companies-house-parent</artifactId>
-        <version>2.1.12</version>
+        <version>2.1.20</version>
         <relativePath/>
     </parent>
     <artifactId>chd-order-api</artifactId>
@@ -18,15 +18,12 @@
     <properties>
         <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
-        <spring-framework.version>6.2.19</spring-framework.version>
 
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <oracle.jdbc11.version>23.8.0.25.04</oracle.jdbc11.version>
 
-        <spring-boot-dependencies.version>3.5.14</spring-boot-dependencies.version>
-        <spring-boot-maven-plugin.version>3.5.3</spring-boot-maven-plugin.version>
+        <spring-boot-dependencies.version>4.1.0</spring-boot-dependencies.version>
+        <spring-boot-maven-plugin.version>4.1.0</spring-boot-maven-plugin.version>
         <start-class>uk.gov.companieshouse.chd.order.api.ChdOrderApiApplication</start-class>
 
         <environment-reader-library.version>3.0.5</environment-reader-library.version>
@@ -42,26 +39,23 @@
         <api-security-java.version>2.0.8</api-security-java.version>
         <commons-lang3.version>3.19.0</commons-lang3.version>
         <system-lambda-version>1.2.1</system-lambda-version>
-        <opentelemetry-version>2.29.0</opentelemetry-version>
-        <kotlin-stdlib.version>2.2.21</kotlin-stdlib.version>
+        <opentelemetry-version>2.31.1</opentelemetry-version>
+        <opentelemetry.logback.appender.version>2.31.1-alpha</opentelemetry.logback.appender.version>
         <h2database.version>2.4.240</h2database.version>
 
         <!-- internal -->
         <structured-logging.version>3.0.57</structured-logging.version>
-        <private-api-sdk-java.version>7.2.3</private-api-sdk-java.version>
+        <private-api-sdk-java.version>7.2.29</private-api-sdk-java.version>
         <api-sdk-manager-java-library.version>3.0.28</api-sdk-manager-java-library.version>
         <api-helper-java-library.version>3.0.1</api-helper-java-library.version>
 
         <!-- CH Dependencies BOM -->
-        <ch-boms.version>0.1.15</ch-boms.version>
-
-        <tools-jackson.version>3.2.1</tools-jackson.version>
+        <ch-boms.version>0.1.25</ch-boms.version>
         <webcompere-version>2.1.8</webcompere-version>
         <!-- Docker -->
         <jib-maven-plugin.version>3.4.6</jib-maven-plugin.version>
 
         <!-- sonar config -->
-		<sonar-maven-plugin.version>5.1.0.4751</sonar-maven-plugin.version>
 		<sonar.java.binaries>${project.basedir}/target</sonar.java.binaries>
 		<sonar.token>${CODE_ANALYSIS_TOKEN}</sonar.token>
 		<sonar.login></sonar.login>
@@ -95,14 +89,6 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-            <!-- spring-framework BOM to align all Spring Framework dependencies to the same version -->
-            <dependency>
-                <groupId>org.springframework</groupId>
-                <artifactId>spring-framework-bom</artifactId>
-                <version>${spring-framework.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
@@ -119,12 +105,25 @@
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-opentelemetry</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.opentelemetry.instrumentation</groupId>
-            <artifactId>opentelemetry-spring-boot-starter</artifactId>
+            <artifactId>opentelemetry-logback-appender-1.0</artifactId>
+            <version>${opentelemetry.logback.appender.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-jackson2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -166,6 +165,11 @@
                     <artifactId>junit-vintage-engine</artifactId>
                 </exclusion>
             </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-webmvc-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -249,24 +253,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>tools.jackson.core</groupId>
-            <artifactId>jackson-databind</artifactId>
-            <version>${tools-jackson.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>tools.jackson.core</groupId>
-            <artifactId>jackson-core</artifactId>
-            <version>${tools-jackson.version}</version>
-        </dependency>
-        <!-- Pinning version to address CVE-2020-29582(5.3) in kotlin-stdlib:jar:1.9.25
-    pulled transitively by opentelemetry-spring-boot-starter:jar:2.25.0 -->
-        <dependency>
-            <groupId>org.jetbrains.kotlin</groupId>
-            <artifactId>kotlin-stdlib</artifactId>
-            <version>${kotlin-stdlib.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -298,7 +284,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven-compiler-plugin.version}</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -320,7 +305,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven-surefire-plugin.version}</version>
             </plugin>
 
             <plugin>
